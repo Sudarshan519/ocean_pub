@@ -49,13 +49,13 @@ class HomepageData {
   });
 
   final List<Banners> banner;
-  final List<Book> books;
+  final Books books;
   final List<Video> video;
   final List<Package> packages;
 
   HomepageData copyWith({
     List<Banners> banner,
-    List<Book> books,
+    Books books,
     List<Video> video,
     List<Package> packages,
   }) =>
@@ -70,31 +70,128 @@ class HomepageData {
         banner: json["banner"] == null
             ? null
             : List<Banners>.from(json["banner"].map((x) => Banners.fromMap(x))),
-        books: json["books"] == null
-            ? null
-            : List<Book>.from(json["books"].map((x) => Book.fromMap(x))),
+        books: json["books"] == null ? null : Books.fromJson(json['books']),
         video: json["video"] == null
             ? null
-            : List<Video>.from(json["video"].map((x) => Video.fromMap(x))),
+            : List<Video>.from(
+                json["video"]["data"].map((x) => Video.fromMap(x))),
         packages: json["packages"] == null
             ? null
             : List<Package>.from(
-                json["packages"].map((x) => Package.fromMap(x))),
+                json["packages"]["data"].map((x) => Package.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
         "banner": banner == null
             ? null
             : List<dynamic>.from(banner.map((x) => x.toMap())),
-        "books": books == null
-            ? null
-            : List<dynamic>.from(books.map((x) => x.toMap())),
+        // "books": books == null
+        //     ? null
+        //     : List<dynamic>.from(books.map((x) => x.toMap())),
         "video": video == null
             ? null
             : List<dynamic>.from(video.map((x) => x.toMap())),
         "packages": packages == null
             ? null
             : List<dynamic>.from(packages.map((x) => x.toMap())),
+      };
+}
+
+class Books {
+  Books({
+    this.heading,
+    this.data,
+  });
+
+  String heading;
+  List<BooksDatum> data;
+
+  factory Books.fromJson(Map<String, dynamic> json) => Books(
+        heading: json["heading"],
+        data: List<BooksDatum>.from(
+            json["data"].map((x) => BooksDatum.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "heading": heading,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+      };
+}
+
+class BooksDatum {
+  BooksDatum({
+    this.id,
+    this.title,
+    this.slug,
+    this.book,
+    this.image,
+    this.price,
+    this.offerPrice,
+    this.author,
+    this.isbnNo,
+    this.edition,
+    this.language,
+    this.rating,
+    this.description,
+    this.tableOfContent,
+    this.digitalOrHardcopy,
+    this.type,
+  });
+
+  int id;
+  String title;
+  String slug;
+  String book;
+  String image;
+  int price;
+  dynamic offerPrice;
+  String author;
+  String isbnNo;
+  String edition;
+  String language;
+  int rating;
+  String description;
+  String tableOfContent;
+  String digitalOrHardcopy;
+  String type;
+
+  factory BooksDatum.fromJson(Map<String, dynamic> json) => BooksDatum(
+        id: json["id"],
+        title: json["title"],
+        slug: json["slug"],
+        book: json["book"],
+        image: json["image"],
+        price: json["price"],
+        offerPrice: json["offer_price"],
+        author: json["author"],
+        isbnNo: json["isbn_no"] == null ? null : json["isbn_no"],
+        edition: json["edition"],
+        language: json["language"],
+        rating: json["rating"],
+        description: json["description"] == null ? null : json["description"],
+        tableOfContent:
+            json["table_of_content"] == null ? null : json["table_of_content"],
+        digitalOrHardcopy: json["digital_or_hardcopy"],
+        type: json["type"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "slug": slug,
+        "book": book,
+        "image": image,
+        "price": price,
+        "offer_price": offerPrice,
+        "author": author,
+        "isbn_no": isbnNo == null ? null : isbnNo,
+        "edition": edition,
+        "language": language,
+        "rating": rating,
+        "description": description == null ? null : description,
+        "table_of_content": tableOfContent == null ? null : tableOfContent,
+        "digital_or_hardcopy": digitalOrHardcopy,
+        "type": type,
       };
 }
 

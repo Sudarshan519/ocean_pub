@@ -10,6 +10,7 @@ Widget icon(String path, {double width, double height, Color color}) =>
       width: width ?? 20,
       height: height ?? 20,
       color: color,
+      fit: BoxFit.contain,
     );
 Widget assetimage(String path,
         {double width, double height, Color color, BoxFit fit}) =>

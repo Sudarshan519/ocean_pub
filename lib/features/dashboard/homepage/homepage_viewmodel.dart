@@ -13,12 +13,15 @@ class HomepageViewmodel extends BaseViewModel {
     setBusy(true);
     try {
       _homepageResponse = await _homepageRepository.getHomepageData();
+      print(_homepageResponse.data);
       homepageData = _homepageResponse.data;
+      print(homepageData.banner);
       changeActiveList(0);
     } catch (e) {
       print(e.toString());
     }
     setBusy(false);
+    print("clear");
     notifyListeners();
   }
 
@@ -26,7 +29,7 @@ class HomepageViewmodel extends BaseViewModel {
     activeList.clear();
 
     if (id == 0) {
-      activeList.addAll(homepageData.books);
+      activeList.addAll(homepageData.books.data);
     } else if (id == 1) {
       activeList.addAll(homepageData.video);
     } else {

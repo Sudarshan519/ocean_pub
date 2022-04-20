@@ -17,6 +17,7 @@ Future<http.Response> getRequest(String url) async {
       Uri.parse("$baseUrl" + url),
       headers: (header),
     );
+    // print(response.body);
     return response;
   } catch (e) {
     print(e.toString());

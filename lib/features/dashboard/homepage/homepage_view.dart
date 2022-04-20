@@ -5,10 +5,10 @@ import 'package:publication_app/base/base_view.dart';
 import 'package:publication_app/features/dashboard/choice.dart';
 import 'package:publication_app/features/dashboard/drawer.dart';
 import 'package:publication_app/features/dashboard/homepage/homepage_viewmodel.dart';
+import 'package:publication_app/features/reusable_wiidgets.dart';
 import 'package:publication_app/models/homepage_response.dart';
 import 'package:publication_app/utils/assets.dart';
 import 'package:publication_app/utils/colors.dart';
-import 'package:publication_app/utils/reusable_widgets/cards.dart';
 import 'package:publication_app/utils/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:publication_app/constant_widgets/appbarView.dart';
@@ -25,12 +25,14 @@ class _HomepageViewState extends State<HomepageView> {
 
   @override
   Widget build(BuildContext context) {
+    HomepageViewmodel().getHomepageData();
     return BaseWidget<HomepageViewmodel>(
         onModelReady: (vm) async {
           await vm.getHomepageData();
         },
         viewModel: HomepageViewmodel(),
         builder: (context, viewmodel, _) {
+          //  print(viewmodel.homepageData.banner.toString());
           return Scaffold(
             key: _scaffoldKey,
             drawer: DrawerView(),
@@ -52,11 +54,13 @@ class _HomepageViewState extends State<HomepageView> {
                           ),
                         ]
                       : [
+                          // Text(viewmodel.homepageData.toString()),
                           VxSwiper.builder(
                             autoPlay: true,
                             viewportFraction: 1.0,
                             itemCount: viewmodel.homepageData.banner.length,
-                            itemBuilder: (context, index) => sliderImage(
+                            itemBuilder: (context, index) => // Container()
+                                sliderImage(
                               viewmodel.homepageData.banner[index],
                             ),
                           ),
@@ -79,7 +83,7 @@ class _HomepageViewState extends State<HomepageView> {
                               child: Container(
                                 child: packageContainer(
                                   context,
-                                  viewmodel.activeList[0],
+                                  viewmodel.activeList[0].toString(),
                                 ),
                               ),
                             ),
@@ -142,7 +146,8 @@ class _HomepageViewState extends State<HomepageView> {
                               child: Container(
                                 child: packageContainer(
                                   context,
-                                  viewmodel.activeList[1],
+                                  viewmodel.activeList[selectedIndex]
+                                      .toString(),
                                 ),
                               ),
                             ),
@@ -259,14 +264,14 @@ class _HomepageViewState extends State<HomepageView> {
                     //     end: Alignment.topCenter,
                     //   ),
                     // ),
-                    child: text(
-                      banners.name,
-                      fontweight: FontWeight.w700,
-                      isCentered: true,
-                      maxLine: 5,
-                      textColor: Colors.white,
-                      fontSize: context.textTheme.headline6.fontSize,
-                    ),
+                    // child: text(
+                    //   banners.name,
+                    //   fontweight: FontWeight.w700,
+                    //   isCentered: true,
+                    //   maxLine: 5,
+                    //   textColor: Colors.white,
+                    //   fontSize: context.textTheme.headline6.fontSize,
+                    // ),
                   ),
                   InkWell(
                     onTap: () {

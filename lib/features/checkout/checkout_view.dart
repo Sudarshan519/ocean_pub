@@ -297,7 +297,7 @@ class CartSummaryWidget extends StatelessWidget {
                           OutlineButton(
                             child: icon(
                               esewaIcon,
-                              width: context.screenWidth * 0.25,
+                              width: double.infinity,
                               height: context.screenWidth * 0.1,
                             ),
                             borderSide: BorderSide(color: colorPrimary),

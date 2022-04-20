@@ -3,9 +3,7 @@ import 'package:esewa_pnp/esewa_pnp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:publication_app/base/base_view.dart';
-import 'package:publication_app/constant_widgets/appbarView.dart';
 import 'package:publication_app/features/reusable_wiidgets.dart';
-import 'package:publication_app/models/homepage_response.dart';
 import 'package:publication_app/utils/colors.dart';
 import 'package:publication_app/utils/assets.dart';
 import 'package:publication_app/utils/reusable_widgets/elevated_stacked_image.dart';
@@ -352,58 +350,78 @@ class CartSummaryWidget extends StatelessWidget {
                           fontSize: context.textTheme.subtitle2.fontSize + 3,
                         ),
                         15.heightBox,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            // ignore: deprecated_member_use
-                            OutlineButton(
-                              child: icon(
-                                esewaIcon,
-                                width: context.screenWidth * 0.25,
-                                height: context.screenWidth * 0.1,
-                              ),
-                              borderSide: BorderSide(color: colorPrimary),
-                              onPressed: () async {
-                                //
-                                ESewaConfiguration _configuration = ESewaConfiguration(
-                                    clientID:
-                                        "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R",
-                                    secretKey:
-                                        "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==",
-                                    environment: ESewaConfiguration
-                                        .ENVIRONMENT_TEST //ENVIRONMENT_LIVE
-                                    );
-                                ESewaPnp _eSewaPnp =
-                                    ESewaPnp(configuration: _configuration);
-                                ESewaPayment _payment = ESewaPayment(
-                                  amount: 564,
-                                  productName: "Ocean Publication",
-                                  productID: "Ocn pub",
-                                  callBackURL: "",
-                                );
-                                try {
-                                  final _res = await _eSewaPnp.initPayment(
-                                    payment: _payment,
-                                  );
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: context.screenWidth * 0.1,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.grey, width: 1),
+                                      image: DecorationImage(
+                                          image: AssetImage(esewaIcon))),
+                                  child: InkWell(
+                                    child: icon(
+                                      esewaIcon,
 
-                                  print(_res.message);
-                                  print(_res.status);
-                                  // Handle success
-                                } on ESewaPaymentException catch (e) {
-                                  // Handle error
-                                  print(e.toString());
-                                }
-                              },
-                            ),
-                            // ignore: deprecated_member_use
-                            OutlineButton(
-                              onPressed: () {
-                                //
-                              },
-                              borderSide: BorderSide(color: colorPrimary),
-                              child: text("Cash on Delivery"),
-                            )
-                          ],
+                                      width: double.infinity,
+                                      // width: context.screenWidth * 0.25,
+                                    ),
+                                    // borderSide: BorderSide(color: colorPrimary),
+                                    onTap: () async {
+                                      //
+                                      ESewaConfiguration _configuration =
+                                          ESewaConfiguration(
+                                              clientID:
+                                                  "JB0BBQ4aD0UqIThFJwAKBgAXEUkEGQUBBAwdOgABHD4DChwUAB0R",
+                                              secretKey:
+                                                  "BhwIWQQADhIYSxILExMcAgFXFhcOBwAKBgAXEQ==",
+                                              environment: ESewaConfiguration
+                                                  .ENVIRONMENT_TEST //ENVIRONMENT_LIVE
+                                              );
+                                      ESewaPnp _eSewaPnp = ESewaPnp(
+                                          configuration: _configuration);
+                                      ESewaPayment _payment = ESewaPayment(
+                                        amount: 564,
+                                        productName: "Ocean Publication",
+                                        productID: "Ocn pub",
+                                        callBackURL: "",
+                                      );
+                                      try {
+                                        final _res =
+                                            await _eSewaPnp.initPayment(
+                                          payment: _payment,
+                                        );
+
+                                        print(_res.message);
+                                        print(_res.status);
+                                        // Handle success
+                                      } on ESewaPaymentException catch (e) {
+                                        // Handle error
+                                        print(e.toString());
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              // ignore: deprecated_member_use
+                              Expanded(
+                                child: OutlineButton(
+                                  onPressed: () {
+                                    //
+                                  },
+                                  borderSide: BorderSide(color: colorPrimary),
+                                  child: text("Cash on Delivery"),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                         5.heightBox,
                       ],

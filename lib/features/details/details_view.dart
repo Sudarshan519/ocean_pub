@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:publication_app/constant_widgets/appbarView.dart';
 import 'package:publication_app/features/cart/cart_view.dart';
@@ -128,28 +127,28 @@ class _DetailsViewState extends State<DetailsView> {
                                 ? loremText.substring(0, 480)
                                 : loremText,
                             style: TextStyle(color: colorPrimary),
-                            children: object.shortDescription != null
-                                ? [
-                                    TextSpan(
-                                      text: isReadingMore
-                                          ? "See less"
-                                          : "See More",
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          setState(
-                                            () {
-                                              isReadingMore = !isReadingMore;
-                                            },
-                                          );
-                                        },
-                                      style: TextStyle(
-                                          color: isReadingMore
-                                              ? Colors.red
-                                              : Colors.green,
-                                          decoration: TextDecoration.underline),
-                                    )
-                                  ]
-                                : [],
+                            //   children: object.shortDescription != null
+                            //       ? [
+                            //           TextSpan(
+                            //             text: isReadingMore
+                            //                 ? "See less"
+                            //                 : "See More",
+                            //             recognizer: TapGestureRecognizer()
+                            //               ..onTap = () {
+                            //                 setState(
+                            //                   () {
+                            //                     isReadingMore = !isReadingMore;
+                            //                   },
+                            //                 );
+                            //               },
+                            //             style: TextStyle(
+                            //                 color: isReadingMore
+                            //                     ? Colors.red
+                            //                     : Colors.green,
+                            //                 decoration: TextDecoration.underline),
+                            //           )
+                            //         ]
+                            //       : [],
                           ),
                         ),
                       ),

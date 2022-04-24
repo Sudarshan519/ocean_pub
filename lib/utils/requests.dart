@@ -13,11 +13,12 @@ Future<http.Response> getRequest(String url) async {
         }
       : null);
   try {
+    print(url);
     var response = await http.get(
       Uri.parse("$baseUrl" + url),
       headers: (header),
     );
-    // print(response.body);
+    print(response.body);
     return response;
   } catch (e) {
     print(e.toString());

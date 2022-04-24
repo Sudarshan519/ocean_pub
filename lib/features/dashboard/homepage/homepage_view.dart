@@ -12,188 +12,18 @@ import 'package:publication_app/utils/colors.dart';
 import 'package:publication_app/utils/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:publication_app/constant_widgets/appbarView.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
-class HomepageView extends StatefulWidget {
+class Dashboard extends StatefulWidget {
+  const Dashboard({Key key}) : super(key: key);
+
   @override
-  _HomepageViewState createState() => _HomepageViewState();
+  State<Dashboard> createState() => _DashboardState();
 }
 
-class _HomepageViewState extends State<HomepageView> {
-  int _navBarIndex = 0;
-  int selectedIndex = 0;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  Widget build(BuildContext context) {
-    HomepageViewmodel().getHomepageData();
-    return BaseWidget<HomepageViewmodel>(
-        onModelReady: (vm) async {
-          await vm.getHomepageData();
-        },
-        viewModel: HomepageViewmodel(),
-        builder: (context, viewmodel, _) {
-          //  print(viewmodel.homepageData.banner.toString());
-          return Scaffold(
-            key: _scaffoldKey,
-            drawer: DrawerView(),
-            appBar: appBarWithSearch(context),
-            bottomNavigationBar: buildBottomNavigationBar(context),
-            backgroundColor: Color(0xffDEDBDB),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: context.screenWidth * 0.03,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: viewmodel.isProcessing
-                      ? [
-                          SpinKitWave(
-                            color: colorPrimary,
-                            itemCount: 8,
-                          ),
-                        ]
-                      : [
-                          // Text(viewmodel.homepageData.toString()),
-                          VxSwiper.builder(
-                            autoPlay: true,
-                            viewportFraction: 1.0,
-                            itemCount: viewmodel.homepageData.banner.length,
-                            itemBuilder: (context, index) => // Container()
-                                sliderImage(
-                              viewmodel.homepageData.banner[index],
-                            ),
-                          ),
-                          5.heightBox,
-                          Padding(
-                            padding: EdgeInsets.all(5.0),
-                            child: FittedBox(
-                              fit: BoxFit.fitWidth,
-                              child: Row(
-                                children: [
-                                  optionChoiceButtons(context, viewmodel),
-                                  // viewmoreAction(context),
-                                ],
-                              ),
-                            ),
-                          ),
-                          if (viewmodel.activeList.length > 0)
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Container(
-                                child: packageContainer(
-                                  context,
-                                  viewmodel.activeList[0].toString(),
-                                ),
-                              ),
-                            ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(
-                                2,
-                                viewmodel.activeList.length == 0 ? 12 : 2,
-                                2,
-                                2),
-                            child: Container(
-                              height: context.screenHeight * 0.16,
-                              width: context.screenWidth * 1,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(authBackgroundImage),
-                                  fit: BoxFit.cover,
-                                ),
-                                color: Colors.white,
-                              ),
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    alignment: Alignment.bottomCenter,
-                                    padding: EdgeInsets.only(
-                                      bottom: 15.0,
-                                    ),
-                                    child: InkWell(
-                                      onTap: () {
-                                        //
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: whiteColor,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        width: context.screenWidth * 0.35,
-                                        height: 35.0,
-                                        child: Center(
-                                          child: text(
-                                            'Explore Now',
-                                            textColor: colorPrimary,
-                                            fontFamily: 'Poppins',
-                                            fontSize: context
-                                                .textTheme.subtitle2.fontSize,
-                                            fontweight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          10.heightBox,
-                          if (viewmodel.activeList.length > 1)
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Container(
-                                child: packageContainer(
-                                  context,
-                                  viewmodel.activeList[selectedIndex]
-                                      .toString(),
-                                ),
-                              ),
-                            ),
-                        ],
-                ),
-              ),
-            ),
-          );
-        });
-  }
-
-  Widget optionChoiceButtons(
-      BuildContext context, HomepageViewmodel viewmodel) {
-    return Container(
-      width: context.screenWidth,
-      height: context.screenHeight * 0.04,
-      // color: Colors.grey,
-      alignment: Alignment.center,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: choices.map(
-          (e) {
-            return InkWell(
-              onTap: selectedIndex == choices.indexOf(e)
-                  ? null
-                  : () {
-                      setState(() {
-                        selectedIndex = choices.indexOf(e);
-                      });
-                      viewmodel.changeActiveList(selectedIndex);
-                    },
-              child: optionButton(
-                context,
-                e.icon,
-                e.title,
-                isSelected: selectedIndex == choices.indexOf(e),
-              ),
-            );
-          },
-        ).toList(),
-      ),
-    );
-  }
-
-  BottomNavigationBar buildBottomNavigationBar(BuildContext context) {
+class _DashboardState extends State<Dashboard> {
+  var _navBarIndex = 0;
+  BottomNavigationBar buildBottomNavigationBar() {
     return BottomNavigationBar(
         backgroundColor: Color(0xffDEDBDB),
         showUnselectedLabels: true,
@@ -225,6 +55,214 @@ class _HomepageViewState extends State<HomepageView> {
           BottomNavigationBarItem(
               icon: icon(userIcon, color: Color(0xff005AAA)), label: "Profile"),
         ]);
+  }
+
+  List tabs = <Widget>[HomepageView(), Container(), Container(), Container()];
+  @override
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: DrawerView(),
+      appBar: appBarWithSearch(context),
+      body: tabs[_navBarIndex],
+      bottomNavigationBar: buildBottomNavigationBar(),
+    );
+  }
+}
+
+class HomepageView extends StatefulWidget {
+  @override
+  _HomepageViewState createState() => _HomepageViewState();
+}
+
+class _HomepageViewState extends State<HomepageView> {
+  int _navBarIndex = 0;
+  int selectedIndex = 0;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  Widget build(BuildContext context) {
+    HomepageViewmodel().getHomepageData();
+    return BaseWidget<HomepageViewmodel>(
+        onModelReady: (vm) async {
+          await vm.getHomepageData();
+        },
+        viewModel: HomepageViewmodel(),
+        builder: (context, viewmodel, _) {
+          //  print(viewmodel.homepageData.banner.toString());
+          // return Scaffold(
+          //   key: _scaffoldKey,
+          //   drawer: DrawerView(),
+          //   appBar: appBarWithSearch(context),
+          //   // bottomNavigationBar: buildBottomNavigationBar(context),
+          //   backgroundColor: Color(0xffDEDBDB),
+          //   body:
+          return SingleChildScrollView(
+              child: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: context.screenWidth * 0.03,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: viewmodel.isProcessing
+                  ? [
+                      SpinKitWave(
+                        color: colorPrimary,
+                        itemCount: 8,
+                      ),
+                    ]
+                  : [
+                      CarouselSlider(
+                        options: CarouselOptions(height: 400.0),
+                        items: viewmodel.homepageData.banner != null
+                            ? viewmodel.homepageData.banner.map((i) {
+                                return Builder(
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                        // width: MediaQuery.of(context).size.width,
+                                        // margin:
+                                        //     EdgeInsets.symmetric(horizontal: 5.0),
+                                        // decoration:
+                                        //     BoxDecoration(color: Colors.amber),
+                                        child: sliderImage(i));
+                                  },
+                                );
+                              }).toList()
+                            : [],
+                      ),
+                      // Text(viewmodel.homepageData.toString()),
+                      // VxSwiper.builder(
+                      //   autoPlay: true,
+                      //   viewportFraction: 1.0,
+                      //   itemCount: viewmodel.homepageData.banner.length,
+                      //   itemBuilder: (context, index) => // Container()
+                      //       sliderImage(
+                      //     viewmodel.homepageData.banner[index],
+                      //   ),
+                      // ),
+                      10.heightBox,
+                      Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Row(
+                            children: [
+                              optionChoiceButtons(context, viewmodel),
+                              // viewmoreAction(context),
+                            ],
+                          ),
+                        ),
+                      ),
+                      10.heightBox,
+                      if (viewmodel.activeList.length > 0)
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.0),
+                          child: Container(
+                            child: packageContainer(
+                              context,
+                              viewmodel.activeList[0].toString(),
+                            ),
+                          ),
+                        ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            2, viewmodel.activeList.length == 0 ? 12 : 2, 2, 2),
+                        child: Container(
+                          height: context.screenHeight * 0.16,
+                          width: context.screenWidth * 1,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(authBackgroundImage),
+                              fit: BoxFit.cover,
+                            ),
+                            color: Colors.white,
+                          ),
+                          child: Stack(
+                            children: [
+                              Container(
+                                alignment: Alignment.bottomCenter,
+                                padding: EdgeInsets.only(
+                                  bottom: 15.0,
+                                ),
+                                child: InkWell(
+                                  onTap: () {
+                                    //
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: whiteColor,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    width: context.screenWidth * 0.35,
+                                    height: 35.0,
+                                    child: Center(
+                                      child: text(
+                                        'Explore Now',
+                                        textColor: colorPrimary,
+                                        fontFamily: 'Poppins',
+                                        fontSize: context
+                                            .textTheme.subtitle2.fontSize,
+                                        fontweight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      10.heightBox,
+                      if (viewmodel.activeList.length > 1)
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5.0),
+                          child: Container(
+                            child: packageContainer(
+                              context,
+                              viewmodel.activeList[selectedIndex].toString(),
+                            ),
+                          ),
+                        ),
+                    ],
+            ),
+            //     ),
+            //   ),
+          ));
+        });
+  }
+
+  Widget optionChoiceButtons(
+      BuildContext context, HomepageViewmodel viewmodel) {
+    return Container(
+      width: context.screenWidth,
+      height: 60, // context.screenHeight * 0.04,
+      // color: Colors.grey,
+      alignment: Alignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: choices.map(
+          (e) {
+            return InkWell(
+              onTap: selectedIndex == choices.indexOf(e)
+                  ? null
+                  : () {
+                      setState(() {
+                        selectedIndex = choices.indexOf(e);
+                      });
+                      viewmodel.changeActiveList(selectedIndex);
+                    },
+              child: optionButton(
+                context,
+                e.icon,
+                e.title,
+                isSelected: selectedIndex == choices.indexOf(e),
+              ),
+            );
+          },
+        ).toList(),
+      ),
+    );
   }
 
   Widget sliderImage(Banners banners) {

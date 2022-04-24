@@ -1,12 +1,18 @@
+import 'dart:convert';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:publication_app/constant_widgets/appbarView.dart';
 import 'package:publication_app/features/cart/cart_view.dart';
 import 'package:publication_app/features/cart/cart_viewmodel.dart';
 import 'package:publication_app/features/checkout/checkout_view.dart';
+import 'package:publication_app/models/book.dart';
 import 'package:publication_app/models/homepage_response.dart';
 import 'package:publication_app/utils/colors.dart';
 import 'package:publication_app/utils/functions.dart';
 import 'package:publication_app/utils/assets.dart';
+import 'package:publication_app/utils/requests.dart';
 import 'package:publication_app/utils/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:publication_app/utils/extensions.dart';
@@ -30,11 +36,28 @@ class _DetailsViewState extends State<DetailsView> {
     // "Course Description"
   ];
   var object;
+  BookApi book;
   bool isReadingMore = false;
+  var loading = true;
   @override
   void initState() {
     super.initState();
+
+    getData();
     object = widget.object;
+  }
+
+  getData() async {
+    var slug = (widget.object.slug);
+
+    var bdata = await getRequest("/book/$slug");
+    BookApi bookApi = bookApiFromJson(bdata.body);
+    book = bookApi;
+    loading = false;
+    setState(() {});
+    print(bookApi.data.relatedProducts);
+    BookData data = widget.object;
+    print(data.toMap().toString());
   }
 
   @override
@@ -46,17 +69,21 @@ class _DetailsViewState extends State<DetailsView> {
           context,
           title: "Half-girlfriend",
         ),
-        body: SingleChildScrollView(
-          child: Flex(
-            mainAxisAlignment: MainAxisAlignment.start,
-            direction: Axis.vertical,
-            children: [
-              stackedCoverView(),
-              description(),
-              10.heightBox,
-            ],
-          ),
-        ),
+        body: loading
+            ? Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  // direction: Axis.vertical,
+                  children: [
+                    10.heightBox,
+                    stackedCoverView(),
+                    20.heightBox,
+                    description(),
+                    10.heightBox,
+                  ],
+                ),
+              ),
       ),
     );
   }
@@ -96,6 +123,7 @@ class _DetailsViewState extends State<DetailsView> {
             ).toList(),
           ),
           Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             width: context.screenWidth,
             height: isReadingMore
                 ? context.screenHeight * 0.9
@@ -108,14 +136,16 @@ class _DetailsViewState extends State<DetailsView> {
                   child: Column(
                     children: [
                       Container(
-                        constraints: BoxConstraints(
-                          minHeight: context.screenHeight * 0.25,
-                          // maxHeight: null,
-                        ),
+                        // constraints: BoxConstraints(
+                        //   minHeight: context.screenHeight * 0.25,
+                        //   // maxHeight: null,
+                        // ),
                         // height:
                         //     isReadingMore ? null : context.screenHeight * 0.35,
                         padding: EdgeInsets.all(8.0),
                         child: RichText(
+                          // maxLines: 2,
+                          // overflow: TextOverflow.ellipsis,
                           text: TextSpan(
                             // TODO: replace here
                             // text: ((isReadingMore
@@ -126,7 +156,7 @@ class _DetailsViewState extends State<DetailsView> {
                             text: !isReadingMore
                                 ? loremText.substring(0, 480)
                                 : loremText,
-                            style: TextStyle(color: colorPrimary),
+                            style: TextStyle(color: Colors.grey.shade800),
                             //   children: object.shortDescription != null
                             //       ? [
                             //           TextSpan(
@@ -152,9 +182,217 @@ class _DetailsViewState extends State<DetailsView> {
                           ),
                         ),
                       ),
+                      20.heightBox,
                       Padding(
                         padding: EdgeInsets.all(10.0),
-                        child: packageContainer(context, "Recommended books"),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    "Recommended Books",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey.shade800),
+                                  ),
+                                  Spacer()
+                                ],
+                              ),
+                              18.heightBox,
+                              SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: List.generate(
+                                        book.data.relatedProducts.length,
+                                        (i) => GestureDetector(
+                                              onTap: () => push(
+                                                  context,
+                                                  DetailsView(book.data
+                                                      .relatedProducts[i])),
+                                              child: Container(
+                                                width: 180,
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 18),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16),
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          image: DecorationImage(
+                                                              image: NetworkImage(book
+                                                                  .data
+                                                                  .relatedProducts[
+                                                                      i]
+                                                                  .image),
+                                                              fit: BoxFit.fill),
+                                                          color: Colors.grey,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(16),
+                                                        ),
+                                                        height: 220,
+                                                        width: 180,
+                                                      ),
+                                                    ),
+                                                    16.heightBox,
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 10),
+                                                      child: Text(
+                                                        book
+                                                            .data
+                                                            .relatedProducts[i]
+                                                            .title,
+                                                        // textAlign:
+                                                        //     TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                    ),
+                                                    3.heightBox,
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 10),
+                                                      child: Text(
+                                                        book
+                                                            .data
+                                                            .relatedProducts[i]
+                                                            .author,
+                                                        // textAlign:
+                                                        //     TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            color: Colors.grey,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal),
+                                                      ),
+                                                    ),
+                                                    8.heightBox,
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            "Rs. " +
+                                                                book
+                                                                    .data
+                                                                    .relatedProducts[
+                                                                        i]
+                                                                    .price
+                                                                    .toString(),
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: TextStyle(
+                                                                decoration: book
+                                                                            .data
+                                                                            .relatedProducts[
+                                                                                i]
+                                                                            .offerPrice !=
+                                                                        'null'
+                                                                    ? null
+                                                                    : TextDecoration
+                                                                        .lineThrough,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          if (book
+                                                                  .data
+                                                                  .relatedProducts[
+                                                                      i]
+                                                                  .offerPrice !=
+                                                              null)
+                                                            Text(
+                                                              "Rs. " +
+                                                                  book
+                                                                      .data
+                                                                      .relatedProducts[
+                                                                          i]
+                                                                      .offerPrice
+                                                                      .toString(),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .start,
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal),
+                                                            ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    10.heightBox,
+                                                    // Text(
+                                                    //   "SOLD OUT " +
+                                                    //       book
+                                                    //           .data
+                                                    //           .relatedProducts[i]
+                                                    //           .type
+                                                    //           .toString(),
+                                                    //   textAlign: TextAlign.start,
+                                                    //   style: TextStyle(
+                                                    //       fontWeight:
+                                                    //           FontWeight.normal),
+                                                    // ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          1,
+                                                          2,
+                                                          3,
+                                                          4,
+                                                          5
+                                                        ]
+                                                            .map(
+                                                              (e) => Icon(
+                                                                Icons.star,
+                                                                size: 15.0,
+                                                                color: e <= 3
+                                                                    ? Colors
+                                                                        .orange
+                                                                    : greyColor,
+                                                              ),
+                                                            )
+                                                            .toList(),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            )),
+                                  ))
+                            ]),
+                        //child: packageContainer(context, "Recommended books"),
                       ),
                     ],
                   ),
@@ -200,10 +438,15 @@ class _DetailsViewState extends State<DetailsView> {
           ClipRRect(
             borderRadius: BorderRadius.circular(10.0),
             child: Container(
-              height: context.screenHeight * 0.25,
-              width: context.screenWidth * 0.4,
-              color: Colors.grey.shade200,
-              child: networkImage(object.image, fit: BoxFit.cover),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  image: DecorationImage(
+                      image: CachedNetworkImageProvider(object.image),
+                      fit: BoxFit.fill)),
+              height: 300,
+              width: 220,
+              // color: Colors.grey.shade200,
+              // child: networkImage(object.image, fit: BoxFit.fill),
             ),
           ),
           bookDescription(),

@@ -126,7 +126,7 @@ Widget packageContainer(BuildContext context, String title,
     List<PackageData> package}) {
   return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
     Padding(
-      padding: EdgeInsets.only(left: 10.0, right: 15.0),
+      padding: EdgeInsets.only(left: 8.0, right: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

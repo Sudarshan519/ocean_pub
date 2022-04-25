@@ -26,11 +26,11 @@ class CartViewModel extends BaseViewModel {
       id: item.id,
       image: item.image,
       name: item.title,
-      author: item is PackageData ? "" : item.author,
+      author: item is Packages ? "" : item.author,
       price: item.price,
-      type: item is BookData
+      type: item is Books
           ? "Book"
-          : item is VideoData
+          : item is Video
               ? "Video"
               : "Package",
       quantity: 1,
@@ -53,11 +53,11 @@ class CartViewModel extends BaseViewModel {
       id: item.id,
       image: item.image,
       name: item.title,
-      author: item is PackageData ? "" : item.author,
+      author: item is Books ? "" : item.author,
       price: item.price,
-      type: item is BookData
+      type: item is Books
           ? "Book"
-          : item is VideoData
+          : item is Video
               ? "Video"
               : "Package",
       quantity: 1,

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:publication_app/features/about_us/view_all_view.dart';
 import 'package:publication_app/features/details/details_view.dart';
 import 'package:publication_app/models/homepage_response.dart';
+// import 'package:publication_app/features/about_us/view_all_view.dart';
+// import 'package:publication_app/features/details/details_view.dart';
+// import 'package:publication_app/models/homepage_response.dart';
 import 'package:publication_app/utils/assets.dart';
-import 'package:publication_app/utils/functions.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:publication_app/utils/extensions.dart';
 import '../colors.dart';
+import '../functions.dart';
 import '../widgets.dart';
 
 Widget packageContainer(BuildContext context, dynamic object,
@@ -33,13 +35,13 @@ Widget packageContainer(BuildContext context, dynamic object,
                       fontweight: FontWeight.w600,
                       fontSize: context.textTheme.subtitle1.fontSize + 2,
                     ),
-                    if (showViewmore)
-                      viewmoreAction(
-                        context,
-                        onTapped: () {
-                          push(context, ViewAllView(type: object.data.first));
-                        },
-                      ),
+                    // if (showViewmore)
+                    //   viewmoreAction(
+                    //     context,
+                    //     onTapped: () {
+                    //       push(context, ViewAllView(type: object.data.first));
+                    //     },
+                    //   ),
                   ],
                 ),
               ),
@@ -70,7 +72,9 @@ Widget bookCard(BuildContext context, dynamic object) {
     onTap: () {
       push(
         context,
-        DetailsView(object, "books"),
+        DetailsView(
+          object
+        ),
       );
     },
     child: Container(
@@ -104,11 +108,7 @@ Widget bookCard(BuildContext context, dynamic object) {
               Container(
                 padding: EdgeInsets.only(right: 4.0),
                 child: text(
-                  // index.isEven
-                  // ?
-                  // "Bookname",
                   object.title ?? "",
-
                   maxLine: 2,
                   isCentered: true,
                   fontSize: context.textTheme.subtitle1.fontSize,
@@ -117,7 +117,7 @@ Widget bookCard(BuildContext context, dynamic object) {
               ),
               2.heightBox,
               text(
-                object is PackageData ? "" : object.author ?? "",
+                object is PackagesDatum ? "" : object.author ?? "",
                 maxLine: 1,
                 textColor: Colors.grey,
                 fontweight: FontWeight.w600,
@@ -128,14 +128,10 @@ Widget bookCard(BuildContext context, dynamic object) {
               FittedBox(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
                       child: text(
                         "${object.price}".toCurrency,
-                        // // TODO: change price
-
-                        // "Rs 500", isCentered: true,
                         textColor: Colors.red,
                         decoration: TextDecoration.lineThrough,
                         fontweight: FontWeight.w400,
@@ -145,8 +141,6 @@ Widget bookCard(BuildContext context, dynamic object) {
                     8.widthBox,
                     Container(
                       child: text(
-                        // "Rs 500",
-                        // TODO: change offerprice
                         "${object.offerPrice}".toCurrency,
                         textColor: Colors.green,
                         isCentered: true,
@@ -182,20 +176,20 @@ Widget bookCard(BuildContext context, dynamic object) {
   );
 }
 
-Widget viewmoreAction(BuildContext context, {Function onTapped}) {
-  return InkWell(
-    onTap: onTapped,
-    child: Container(
-      alignment: Alignment.center,
-      child: Row(
-        children: [
-          icon(categoriesIcon, height: 20.0),
-          text(
-            "View all",
-            fontSize: context.textTheme.caption.fontSize,
-          ),
-        ],
-      ),
-    ),
-  );
-}
+// Widget viewmoreAction(BuildContext context, {Function onTapped}) {
+//   return InkWell(
+//     onTap: onTapped,
+//     child: Container(
+//       alignment: Alignment.center,
+//       child: Row(
+//         children: [
+//           icon(categoriesIcon, height: 20.0),
+//           text(
+//             "View all",
+//             fontSize: context.textTheme.caption.fontSize,
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+// }

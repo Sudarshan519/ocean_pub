@@ -97,18 +97,18 @@ class _CartViewState extends State<CartView> {
                         itemBuilder: (context, index) => Container(
                           // color: Colors.green,
                           child: FittedBox(
-                            child: StackedElevatedImage(
-                              detailsWidget: checkoutItemDetail(
-                                viewmodel.cartItems[index],
-                                onTappedRemoveButton: () =>
-                                    viewmodel.removeItemFromCart(
-                                  viewmodel.cartItems[index].id,
-                                  index: index,
-                                ),
-                              ),
-                              height: context.screenHeight * 0.2,
-                              image: viewmodel.cartItems[index].image,
-                            ),
+                            // child: StackedElevatedImage(
+                            //   detailsWidget: checkoutItemDetail(
+                            //     viewmodel.cartItems[index],
+                            //     onTappedRemoveButton: () =>
+                            //         viewmodel.removeItemFromCart(
+                            //       viewmodel.cartItems[index].id,
+                            //       index: index,
+                            //     ),
+                            //   ),
+                            //   height: context.screenHeight * 0.2,
+                            //   image: viewmodel.cartItems[index].image,
+                            // ),
                           ),
                         ),
                         itemCount: viewmodel.cartItems.length,
@@ -325,12 +325,12 @@ class CartSummaryWidget extends StatelessWidget {
                           title: "Total Quantity",
                           detail: "$quantity",
                         ),
-                        divider(),
+                        // divider(),
                         summaryDetails(
                           title: "Subtotal",
                           detail: "$totalPrice".toCurrency,
                         ),
-                        divider(),
+                        // divider(),
                         summaryDetails(
                             title: "Discount", detail: "0".toCurrency),
                         dottedLine(),
@@ -340,7 +340,7 @@ class CartSummaryWidget extends StatelessWidget {
                           color: blackColor,
                         ),
                         8.heightBox,
-                        divider(),
+                        // divider(),
                       ],
                     ),
                   ),
@@ -419,11 +419,11 @@ class CartSummaryWidget extends StatelessWidget {
                               ),
                               // ignore: deprecated_member_use
                               Expanded(
-                                child: OutlineButton(
+                                child: ElevatedButton(
                                   onPressed: () {
                                     //
                                   },
-                                  borderSide: BorderSide(color: colorPrimary),
+                                  // borderSide: BorderSide(color: colorPrimary),
                                   child: text("Cash on Delivery"),
                                 ),
                               )

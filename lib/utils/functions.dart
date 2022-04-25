@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+// import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:publication_app/models/authresponse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 /// changes status bar color
 void changeStatusbarcolor(Color color) async {
-  await FlutterStatusbarcolor.setStatusBarColor(color);
+  // await FlutterStatusbarcolor.setStatusBarColor(color);
 }
 
 showToast(BuildContext context, String message, [var position]) {

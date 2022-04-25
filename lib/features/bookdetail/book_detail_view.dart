@@ -83,10 +83,10 @@ class BookDetailView extends StatelessWidget {
                   maxLines: 6,
                 ),
                 5.heightBox,
-                ActionButton(
-                  title: "Submit",
-                  showRadius: true,
-                )
+                // ActionButton(
+                //   title: "Submit",
+                //   showRadius: true,
+                // )
               ],
             ),
           ],
@@ -126,9 +126,9 @@ class BookDetailView extends StatelessWidget {
                     .toList(),
               ),
               5.heightBox,
-              ActionButton(
-                title: "Read now",
-              )
+              // ActionButton(
+              //   title: "Read now",
+              // )
             ],
           ),
         ),

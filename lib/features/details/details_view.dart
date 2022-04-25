@@ -8,6 +8,7 @@ import 'package:publication_app/features/cart/cart_viewmodel.dart';
 import 'package:publication_app/features/checkout/checkout_view.dart';
 import 'package:publication_app/models/book.dart';
 import 'package:publication_app/models/homepage_response.dart';
+import 'package:publication_app/utils/assets.dart';
 import 'package:publication_app/utils/colors.dart';
 import 'package:publication_app/utils/functions.dart';
 import 'package:publication_app/utils/requests.dart';
@@ -17,8 +18,10 @@ import 'package:publication_app/utils/extensions.dart';
 
 class DetailsView extends StatefulWidget {
   final dynamic object;
-  final String type;
-  const DetailsView(this.object, this.type);
+  // final String type;
+  const DetailsView(
+    this.object,
+  );
   @override
   _DetailsViewState createState() => _DetailsViewState();
 }
@@ -44,23 +47,29 @@ class _DetailsViewState extends State<DetailsView> {
   }
 
   getData() async {
-    var slug = (widget.object.slug);
-    // print(widget.type);
-    var bdata = await getRequest("/${widget.type}" + "/$slug");
-    if (widget.type == "package") {
-      // print(bdata.body);
-      PackageData bookApi = PackageData.fromMap(jsonDecode(bdata.body));
-      book = bookApi;
-      // book = bookApi;
-      loading = false;
+    var type = (widget.object.type);
+    var slug = widget.object.slug;
+    print(type);
+    // print(object.type);
+    var bdata = await getRequest("/${type}" + "/$slug");
+    // if (object.type == "book") {
+    var bookApi = (jsonDecode(bdata.body));
+    if (type == "book") {
+      book = bookApiFromJson(bdata.body);
     } else {
-      // var bdata = await getRequest(
-      //     "/${widget.type == "package" ? "package" : "books"}" + "/$slug");
-      BookApi bookApi = bookApiFromJson(bdata.body);
-
       book = bookApi;
-      loading = false;
     }
+
+    loading = false;
+    // } else {
+    //   // var bdata = await getRequest(
+    //   //     "/${widget.type == "package" ? "package" : "books"}" + "/$slug");
+    //   // BookApi bookApi = bookApiFromJson(bdata.body);
+
+    //   // book = bookApi;
+    //   // loading = false;
+    //   // print(book);
+    // }
     setState(() {});
     // print(bookApi.data.relatedProducts);
     // BookData data = widget.object;
@@ -69,23 +78,36 @@ class _DetailsViewState extends State<DetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        //
-        appBar: appBarWithSearch(
-          context,
-          title: "Half-girlfriend",
-        ),
-        body: loading
-            ? Center(child: CircularProgressIndicator())
+    return Scaffold(
+      //
+      // appBar: appBarWithSearch(
+      //   context,
+      //   title: "Half-girlfriend",
+      // ),
+      body: SafeArea(
+        child: loading
+            ? CircularProgressIndicator()
             : SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   // direction: Axis.vertical,
                   children: [
-                    10.heightBox,
-                    stackedCoverView(),
-                    20.heightBox,
+                    // stackedCoverView(),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(
+                                object.image,
+                                // fit: BoxFit.fitHeight,
+                              )),
+                        ),
+                        bookDescription(),
+                      ],
+                    ),
+                    // 20.heightBox,
                     description(),
                     10.heightBox,
                   ],
@@ -96,372 +118,405 @@ class _DetailsViewState extends State<DetailsView> {
   }
 
   description() {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 3,
-      child: Column(
-        // direction: Axis.vertical,
-        children: [
-          TabBar(
-            onTap: (int indx) {
-              setState(() {
-                activeIndex = indx;
-              });
-            },
-            labelColor: colorPrimary,
-            unselectedLabelColor: blackColor,
-            tabs: _tabBarTitles.map(
-              (String title) {
-                int elementIndex = _tabBarTitles.indexOf(title);
-                return Tab(
-                  child: text(
-                    "$title",
-                    textColor: activeIndex == elementIndex
-                        ? colorPrimary
-                        : Colors.black,
-                    isCentered: true,
-                    maxLine: 2,
-                    fontweight:
-                        activeIndex == elementIndex ? FontWeight.w600 : null,
-                    fontSize: activeIndex == elementIndex ? 16.0 : 12.0,
-                  ),
-                );
-              },
-            ).toList(),
-          ),
-          Container(
-            // padding: const EdgeInsets.symmetric(horizontal: 10),
-            width: context.screenWidth,
-            height: isReadingMore
-                ? context.screenHeight * 0.9
-                : context.screenHeight * 0.62,
-            child: TabBarView(
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                SingleChildScrollView(
-                  // physics: NeverScrollableScrollPhysics(),
-                  child: Column(
-                    children: [
-                      Container(
-                        // constraints: BoxConstraints(
-                        //   minHeight: context.screenHeight * 0.25,
-                        //   // maxHeight: null,
-                        // ),
-                        // height:
-                        //     isReadingMore ? null : context.screenHeight * 0.35,
-                        // padding: EdgeInsets.all(8.0),
-                        child: RichText(
-                          // maxLines: 2,
-                          // overflow: TextOverflow.ellipsis,
-                          text: TextSpan(
-                            // TODO: replace here
-                            // text: ((isReadingMore
-                            //             ? object.description
-                            //             : object.shortDescription)
-                            //         .toString())
-                            //     .ashtmlTags,
-                            text: !isReadingMore
-                                ? object.description == null
-                                    ? ""
-                                    // : object.description.length > 480
-                                    //     ? object.description.substring(0, 480)
-                                    //     :
-                                    : object.description
-                                : loremText,
-                            style: TextStyle(color: Colors.grey.shade800),
-                            //   children: object.shortDescription != null
-                            //       ? [
-                            //           TextSpan(
-                            //             text: isReadingMore
-                            //                 ? "See less"
-                            //                 : "See More",
-                            //             recognizer: TapGestureRecognizer()
-                            //               ..onTap = () {
-                            //                 setState(
-                            //                   () {
-                            //                     isReadingMore = !isReadingMore;
-                            //                   },
-                            //                 );
-                            //               },
-                            //             style: TextStyle(
-                            //                 color: isReadingMore
-                            //                     ? Colors.red
-                            //                     : Colors.green,
-                            //                 decoration: TextDecoration.underline),
-                            //           )
-                            //         ]
-                            //       : [],
-                          ),
-                        ),
-                      ),
-                      20.heightBox,
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Recommended Books",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey.shade800),
-                                  ),
-                                  Spacer()
-                                ],
-                              ),
-                            ),
-                            18.heightBox,
-                            SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: List.generate(
-                                      book.data.relatedProducts.length,
-                                      (i) => GestureDetector(
-                                            onTap: () => push(
-                                                context,
-                                                DetailsView(
-                                                    book.data
-                                                        .relatedProducts[i],
-                                                    "books")),
-                                            child: Container(
-                                              width: 180,
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 18),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: NetworkImage(book
-                                                                .data
-                                                                .relatedProducts[
-                                                                    i]
-                                                                .image),
-                                                            fit: BoxFit.fill),
-                                                        color: Colors.grey,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(16),
-                                                      ),
-                                                      height: 220,
-                                                      width: 180,
-                                                    ),
-                                                  ),
-                                                  16.heightBox,
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 10),
-                                                    child: Text(
-                                                      book
-                                                          .data
-                                                          .relatedProducts[i]
-                                                          .title,
-                                                      // textAlign:
-                                                      //     TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ),
-                                                  3.heightBox,
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 10),
-                                                    child: Text(
-                                                      book
-                                                          .data
-                                                          .relatedProducts[i]
-                                                          .author,
-                                                      // textAlign:
-                                                      //     TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.grey,
-                                                          fontWeight: FontWeight
-                                                              .normal),
-                                                    ),
-                                                  ),
-                                                  8.heightBox,
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 10),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          "Rs. " +
-                                                              book
-                                                                  .data
-                                                                  .relatedProducts[
-                                                                      i]
-                                                                  .price
-                                                                  .toString(),
-                                                          textAlign:
-                                                              TextAlign.start,
-                                                          style: TextStyle(
-                                                              decoration: book
-                                                                          .data
-                                                                          .relatedProducts[
-                                                                              i]
-                                                                          .offerPrice !=
-                                                                      'null'
-                                                                  ? null
-                                                                  : TextDecoration
-                                                                      .lineThrough,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        if (book
-                                                                .data
-                                                                .relatedProducts[
-                                                                    i]
-                                                                .offerPrice !=
-                                                            null)
-                                                          Text(
-                                                            "Rs. " +
-                                                                book
-                                                                    .data
-                                                                    .relatedProducts[
-                                                                        i]
-                                                                    .offerPrice
-                                                                    .toString(),
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal),
-                                                          ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  10.heightBox,
-                                                  // Text(
-                                                  //   "SOLD OUT " +
-                                                  //       book
-                                                  //           .data
-                                                  //           .relatedProducts[i]
-                                                  //           .type
-                                                  //           .toString(),
-                                                  //   textAlign: TextAlign.start,
-                                                  //   style: TextStyle(
-                                                  //       fontWeight:
-                                                  //           FontWeight.normal),
-                                                  // ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 10),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [1, 2, 3, 4, 5]
-                                                          .map(
-                                                            (e) => Icon(
-                                                              Icons.star,
-                                                              size: 15.0,
-                                                              color: e <= 3
-                                                                  ? Colors
-                                                                      .orange
-                                                                  : greyColor,
-                                                            ),
-                                                          )
-                                                          .toList(),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 20,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          )),
-                                ))
-                          ]),
-                      SizedBox(
-                        height: 20,
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  constraints: BoxConstraints(
-                    minHeight: context.screenHeight * 0.2,
-                    // maxHeight: null,
-                  ),
-                  width: context.screenWidth,
-                  // padding: EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      object is PackageData
-                          ? text("")
-                          : text(object.tableOfContent),
-                      200.heightBox,
-                      text(object.description),
-                      70.heightBox,
-                    ],
-                  ),
-                ),
-                Container(
-                  height: context.screenHeight * 0.3 - 100,
-                  width: context.screenWidth,
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget stackedCoverView() {
-    return Padding(
-      padding: EdgeInsets.only(top: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+    if (widget.object.type == "book") {
+      BookApi bookApi = book;
+      Book bookData = bookApi.data.book;
+      return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  image: DecorationImage(
-                      image: CachedNetworkImageProvider(object.image),
-                      fit: BoxFit.fill)),
-              height: 200,
-              width: 130,
-              // color: Colors.grey.shade200,
-              // child: networkImage(object.image, fit: BoxFit.fill),
-            ),
-          ),
-          bookDescription(),
+          // Row(
+          //   children: [
+          //     Expanded(child: networkImage(bookData.image)),
+          //     Expanded(
+          //         child: Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: Column(
+          //         children: [
+          //           Text(
+          //             bookApi.data.book.title.toString(),
+          //           ),
+          //           Text(
+          //             bookData.author,
+          //             textAlign: TextAlign.justify,
+          //           ),
+          //           Text("Rs." + bookData.price.toString()),
+          //           if (bookData.offerPrice.toString() != "")
+          //             Text("Rs." + bookData.offerPrice.toString()),
+          //           // Text(bookData.)
+
+          //           ElevatedButton(onPressed: () {}, child: Text("Buy Now")),
+
+          //           ElevatedButton(onPressed: () {}, child: Text("Add to Cart"))
+          //         ],
+          //       ),
+          //     ))
+          //   ],
+          // ),
+          // Text(bookApi.data.childCategory.toJson().toString()),
+          // Text(bookApi.data.feedbacks.toString()),
+          // Text(bookApi.data.relatedProducts.toString()),
         ],
-      ),
-    );
+      );
+    } else {
+      return Text(book.toString());
+    }
+    // return DefaultTabController(
+    //   initialIndex: 0,
+    //   length: 3,
+    //   child: Column(
+    //     // direction: Axis.vertical,
+    //     children: [
+    //         TabBar(
+    //           onTap: (int indx) {
+    //             setState(() {
+    //               activeIndex = indx;
+    //             });
+    //           },
+    //           labelColor: colorPrimary,
+    //           unselectedLabelColor: blackColor,
+    //           tabs: _tabBarTitles.map(
+    //             (String title) {
+    //               int elementIndex = _tabBarTitles.indexOf(title);
+    //               return Tab(
+    //                 child: text(
+    //                   "$title",
+    //                   textColor: activeIndex == elementIndex
+    //                       ? colorPrimary
+    //                       : Colors.black,
+    //                   isCentered: true,
+    //                   maxLine: 2,
+    //                   fontweight:
+    //                       activeIndex == elementIndex ? FontWeight.w600 : null,
+    //                   fontSize: activeIndex == elementIndex ? 16.0 : 12.0,
+    //                 ),
+    //               );
+    //             },
+    //           ).toList(),
+    //         ),
+    //         Container(
+    //           // padding: const EdgeInsets.symmetric(horizontal: 10),
+    //           width: context.screenWidth,
+    //           height: isReadingMore
+    //               ? context.screenHeight * 0.9
+    //               : context.screenHeight * 0.62,
+    //           child: TabBarView(
+    //             physics: NeverScrollableScrollPhysics(),
+    //             children: [
+    //               SingleChildScrollView(
+    //                 // physics: NeverScrollableScrollPhysics(),
+    //                 child: Column(
+    //                   children: [
+    //                     Container(
+    //                       // constraints: BoxConstraints(
+    //                       //   minHeight: context.screenHeight * 0.25,
+    //                       //   // maxHeight: null,
+    //                       // ),
+    //                       // height:
+    //                       //     isReadingMore ? null : context.screenHeight * 0.35,
+    //                       // padding: EdgeInsets.all(8.0),
+    //                       child: RichText(
+    //                         // maxLines: 2,
+    //                         // overflow: TextOverflow.ellipsis,
+    //                         text: TextSpan(
+    //                           // TODO: replace here
+    //                           // text: ((isReadingMore
+    //                           //             ? object.description
+    //                           //             : object.shortDescription)
+    //                           //         .toString())
+    //                           //     .ashtmlTags,
+    //                           text: !isReadingMore
+    //                               ? object.description == null
+    //                                   ? ""
+    //                                   // : object.description.length > 480
+    //                                   //     ? object.description.substring(0, 480)
+    //                                   //     :
+    //                                   : object.description
+    //                               : loremText,
+    //                           style: TextStyle(color: Colors.grey.shade800),
+    //                           //   children: object.shortDescription != null
+    //                           //       ? [
+    //                           //           TextSpan(
+    //                           //             text: isReadingMore
+    //                           //                 ? "See less"
+    //                           //                 : "See More",
+    //                           //             recognizer: TapGestureRecognizer()
+    //                           //               ..onTap = () {
+    //                           //                 setState(
+    //                           //                   () {
+    //                           //                     isReadingMore = !isReadingMore;
+    //                           //                   },
+    //                           //                 );
+    //                           //               },
+    //                           //             style: TextStyle(
+    //                           //                 color: isReadingMore
+    //                           //                     ? Colors.red
+    //                           //                     : Colors.green,
+    //                           //                 decoration: TextDecoration.underline),
+    //                           //           )
+    //                           //         ]
+    //                           //       : [],
+    //                         ),
+    //                       ),
+    //                     ),
+    //                     20.heightBox,
+    //                     Column(
+    //                         crossAxisAlignment: CrossAxisAlignment.start,
+    //                         mainAxisAlignment: MainAxisAlignment.start,
+    //                         children: [
+    //                           Padding(
+    //                             padding: EdgeInsets.all(10.0),
+    //                             child: Row(
+    //                               children: [
+    //                                 Text(
+    //                                   "Recommended Books",
+    //                                   style: TextStyle(
+    //                                       fontSize: 18,
+    //                                       fontWeight: FontWeight.bold,
+    //                                       color: Colors.grey.shade800),
+    //                                 ),
+    //                                 Spacer()
+    //                               ],
+    //                             ),
+    //                           ),
+    //                           18.heightBox,
+    //                           SingleChildScrollView(
+    //                               scrollDirection: Axis.horizontal,
+    //                               child: Row(
+    //                                 children: List.generate(
+    //                                     object.relatedProducts.length,
+    //                                     (i) => GestureDetector(
+    //                                           onTap: () => push(
+    //                                               context,
+    //                                               DetailsView(
+    //                                                 object.relatedProducts[i],
+    //                                               )),
+    //                                           child: Container(
+    //                                             width: 180,
+    //                                             margin:
+    //                                                 const EdgeInsets.symmetric(
+    //                                                     horizontal: 18),
+    //                                             child: Column(
+    //                                               crossAxisAlignment:
+    //                                                   CrossAxisAlignment.start,
+    //                                               children: [
+    //                                                 ClipRRect(
+    //                                                   borderRadius:
+    //                                                       BorderRadius.circular(
+    //                                                           16),
+    //                                                   child: Container(
+    //                                                     decoration: BoxDecoration(
+    //                                                       image: DecorationImage(
+    //                                                           image: NetworkImage(
+    //                                                               object
+    //                                                                   .relatedProducts[
+    //                                                                       i]
+    //                                                                   .image),
+    //                                                           fit: BoxFit.fill),
+    //                                                       color: Colors.grey,
+    //                                                       borderRadius:
+    //                                                           BorderRadius
+    //                                                               .circular(16),
+    //                                                     ),
+    //                                                     height: 220,
+    //                                                     width: 180,
+    //                                                   ),
+    //                                                 ),
+    //                                                 16.heightBox,
+    //                                                 Padding(
+    //                                                   padding: const EdgeInsets
+    //                                                           .symmetric(
+    //                                                       horizontal: 10),
+    //                                                   child: Text(
+    //                                                     object.relatedProducts[i]
+    //                                                         .title,
+    //                                                     // textAlign:
+    //                                                     //     TextAlign.center,
+    //                                                     style: TextStyle(
+    //                                                         fontSize: 16,
+    //                                                         fontWeight:
+    //                                                             FontWeight.w600),
+    //                                                   ),
+    //                                                 ),
+    //                                                 3.heightBox,
+    //                                                 Padding(
+    //                                                   padding: const EdgeInsets
+    //                                                           .symmetric(
+    //                                                       horizontal: 10),
+    //                                                   child: Text(
+    //                                                     object.relatedProducts[i]
+    //                                                         .author,
+    //                                                     // textAlign:
+    //                                                     //     TextAlign.center,
+    //                                                     style: TextStyle(
+    //                                                         fontSize: 16,
+    //                                                         color: Colors.grey,
+    //                                                         fontWeight: FontWeight
+    //                                                             .normal),
+    //                                                   ),
+    //                                                 ),
+    //                                                 8.heightBox,
+    //                                                 Padding(
+    //                                                   padding: const EdgeInsets
+    //                                                           .symmetric(
+    //                                                       horizontal: 10),
+    //                                                   child: Row(
+    //                                                     mainAxisAlignment:
+    //                                                         MainAxisAlignment
+    //                                                             .start,
+    //                                                     children: [
+    //                                                       Text(
+    //                                                         "Rs. " +
+    //                                                             object
+    //                                                                 .relatedProducts[
+    //                                                                     i]
+    //                                                                 .price
+    //                                                                 .toString(),
+    //                                                         textAlign:
+    //                                                             TextAlign.start,
+    //                                                         style: TextStyle(
+    //                                                             decoration: object
+    //                                                                         .relatedProducts[
+    //                                                                             i]
+    //                                                                         .offerPrice !=
+    //                                                                     'null'
+    //                                                                 ? null
+    //                                                                 : TextDecoration
+    //                                                                     .lineThrough,
+    //                                                             fontWeight:
+    //                                                                 FontWeight
+    //                                                                     .normal),
+    //                                                       ),
+    //                                                       SizedBox(
+    //                                                         width: 10,
+    //                                                       ),
+    //                                                       if (object
+    //                                                               .relatedProducts[
+    //                                                                   i]
+    //                                                               .offerPrice !=
+    //                                                           null)
+    //                                                         Text(
+    //                                                           "Rs. " +
+    //                                                               object
+    //                                                                   .relatedProducts[
+    //                                                                       i]
+    //                                                                   .offerPrice
+    //                                                                   .toString(),
+    //                                                           textAlign:
+    //                                                               TextAlign.start,
+    //                                                           style: TextStyle(
+    //                                                               fontWeight:
+    //                                                                   FontWeight
+    //                                                                       .normal),
+    //                                                         ),
+    //                                                     ],
+    //                                                   ),
+    //                                                 ),
+    //                                                 10.heightBox,
+    //                                                 // Text(
+    //                                                 //   "SOLD OUT " +
+    //                                                 //       book
+    //                                                 //           .data
+    //                                                 //           .relatedProducts[i]
+    //                                                 //           .type
+    //                                                 //           .toString(),
+    //                                                 //   textAlign: TextAlign.start,
+    //                                                 //   style: TextStyle(
+    //                                                 //       fontWeight:
+    //                                                 //           FontWeight.normal),
+    //                                                 // ),
+    //                                                 Padding(
+    //                                                   padding: const EdgeInsets
+    //                                                           .symmetric(
+    //                                                       horizontal: 10),
+    //                                                   child: Row(
+    //                                                     mainAxisAlignment:
+    //                                                         MainAxisAlignment
+    //                                                             .start,
+    //                                                     children: [1, 2, 3, 4, 5]
+    //                                                         .map(
+    //                                                           (e) => Icon(
+    //                                                             Icons.star,
+    //                                                             size: 15.0,
+    //                                                             color: e <= 3
+    //                                                                 ? Colors
+    //                                                                     .orange
+    //                                                                 : greyColor,
+    //                                                           ),
+    //                                                         )
+    //                                                         .toList(),
+    //                                                   ),
+    //                                                 ),
+    //                                                 SizedBox(
+    //                                                   height: 20,
+    //                                                 )
+    //                                               ],
+    //                                             ),
+    //                                           ),
+    //                                         )),
+    //                               ))
+    //                         ]),
+    //                     SizedBox(
+    //                       height: 20,
+    //                     )
+    //                   ],
+    //                 ),
+    //               ),
+    //               Container(
+    //                 constraints: BoxConstraints(
+    //                   minHeight: context.screenHeight * 0.2,
+    //                   // maxHeight: null,
+    //                 ),
+    //                 width: context.screenWidth,
+    //                 // padding: EdgeInsets.all(20.0),
+    //                 child: Column(
+    //                   crossAxisAlignment: CrossAxisAlignment.start,
+    //                   children: [
+    //                     object is Packages
+    //                         ? text("")
+    //                         : text(object.tableOfContent),
+    //                     200.heightBox,
+    //                     text(object.description),
+    //                     70.heightBox,
+    //                   ],
+    //                 ),
+    //               ),
+    //               Container(
+    //                 height: context.screenHeight * 0.3 - 100,
+    //                 width: context.screenWidth,
+    //               ),
+    //             ],
+    //           ),
+    //         )
+    //       ],
+    //     ),
+    //   );
+    // }
+
+    // Widget stackedCoverView() {
+    //   return Padding(
+    //     padding: EdgeInsets.only(top: 8.0),
+    //     child: Row(
+    //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         ClipRRect(
+    //           borderRadius: BorderRadius.circular(10.0),
+    //           child: Container(
+    //             decoration: BoxDecoration(
+    //                 borderRadius: BorderRadius.circular(10.0),
+    //                 image: DecorationImage(
+    //                     image: CachedNetworkImageProvider(object.image),
+    //                     fit: BoxFit.fill)),
+    //             height: 200,
+    //             width: 130,
+    //             // color: Colors.grey.shade200,
+    //             child: networkImage(object.image, fit: BoxFit.fill),
+    //           ),
+    //         ),
+    //         bookDescription(),
+    //       ],
+    //     ),
+    // );
   }
 
   Widget bookDescription() {
@@ -487,7 +542,7 @@ class _DetailsViewState extends State<DetailsView> {
               5.heightBox,
               Container(
                 child: text(
-                  object is PackageData ? "" : object.author ?? "",
+                  object is PackagesDatum ? "" : object.author ?? "",
                   isCentered: false,
                   maxLine: 2,
                   textColor: greyColor,
@@ -570,17 +625,17 @@ class _DetailsViewState extends State<DetailsView> {
             ],
           ),
           5.heightBox,
-          // Container(
-          //   alignment: Alignment.centerRight,
-          //   decoration: BoxDecoration(
-          //       // border: Border.all(
-          //       //   color: greyColor,
-          //       // ),
-          //       // borderRadius: borderRadius(),
-          //       ),
-          //   padding: EdgeInsets.all(8.0),
-          //   child: text("Specifications"),
-          // ),
+          Container(
+            alignment: Alignment.centerRight,
+            decoration: BoxDecoration(
+                // border: Border.all(
+                //   color: greyColor,
+                // ),
+                // borderRadius: borderRadius(),
+                ),
+            padding: EdgeInsets.all(8.0),
+            child: text("Specifications"),
+          ),
         ],
       ),
     );

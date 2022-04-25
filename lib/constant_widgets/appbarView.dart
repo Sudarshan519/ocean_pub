@@ -4,7 +4,7 @@ import 'package:publication_app/utils/colors.dart';
 import 'package:publication_app/utils/functions.dart';
 import 'package:publication_app/utils/widgets.dart';
 
-Widget appBarWithSearch(BuildContext context,
+AppBar appBarWithSearch(BuildContext context,
         {TextTheme theme, String title}) =>
     AppBar(
       backgroundColor: Colors.blue.shade700,

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:publication_app/constant_widgets/appbarView.dart';
 import 'package:publication_app/features/details/details_view.dart';
+import 'package:publication_app/features/publications/details_view.dart';
 import 'package:publication_app/models/authors.dart';
 import 'package:publication_app/utils/assets.dart';
 import 'package:publication_app/utils/colors.dart';
@@ -56,11 +57,11 @@ class AuthorProfileView extends StatelessWidget {
                           authorData.books.length,
                           (index) => InkWell(
                             onTap: () {
-                              push(
-                                  context,
-                                  DetailsView(
-                                      authorData.books[index], "books"));
-                            },
+                            //   push(
+                            //       context,
+                            //       DetailsView(
+                            //           authorData.books[index], "books"));
+                          },
                             child: Container(
                               height: context.screenHeight * 0.06,
                               width: context.screenWidth * 0.75,

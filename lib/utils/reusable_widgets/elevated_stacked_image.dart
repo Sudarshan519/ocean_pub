@@ -150,7 +150,7 @@ class BookDetailsWidgetForElevatedDisplay extends StatelessWidget {
             ),
             5.heightBox,
             text(
-              item is PackageData ? "" : item.author,
+              item is Packages ? "" : item.author,
               textColor: greyColor,
               fontweight: FontWeight.w300,
               fontSize: context.textTheme.caption.fontSize,

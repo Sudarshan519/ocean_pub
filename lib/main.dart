@@ -1,8 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:publication_app/features/authors/authors_view.dart';
 import 'package:publication_app/features/dashboard/homepage/homepage_view.dart';
-import 'package:publication_app/features/distributors/distributors_view.dart';
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();

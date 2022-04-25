@@ -25,8 +25,9 @@ class Choice {
 Widget optionButton(BuildContext context, String icons, String title,
     {bool isSelected}) {
   return Container(
+    width: 180,
     // width: context.screenWidth / 4,
-    height: context.screenHeight * 0.05,
+    height: 60, // context.screenHeight * 0.05,
     margin: const EdgeInsets.only(right: 10),
     alignment: Alignment.center,
     decoration: BoxDecoration(

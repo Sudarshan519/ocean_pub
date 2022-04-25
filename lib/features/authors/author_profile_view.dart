@@ -56,8 +56,10 @@ class AuthorProfileView extends StatelessWidget {
                           authorData.books.length,
                           (index) => InkWell(
                             onTap: () {
-                              push(context,
-                                  DetailsView(authorData.books[index]));
+                              push(
+                                  context,
+                                  DetailsView(
+                                      authorData.books[index], "books"));
                             },
                             child: Container(
                               height: context.screenHeight * 0.06,

@@ -18,10 +18,10 @@ Widget appBarWithSearch(BuildContext context,
       // ),
       title: Container(
         height: 40.0,
-        padding: EdgeInsets.only(
-          bottom: 5.0,
-        ),
-        alignment: Alignment.topCenter,
+        // padding: EdgeInsets.only(
+        //   bottom: 5.0,
+        // ),
+        alignment: Alignment.center,
         child: TextField(
           style: TextStyle(color: colorPrimary, fontSize: 12.0),
           decoration: InputDecoration(
@@ -51,7 +51,7 @@ Widget appBarWithSearch(BuildContext context,
         //         //apply search
         //         print("search");
         //       },
-        //       child: Icon(CupertinoIcons.person_alt_circle)),
+        //       child: Icon(Icons.search)),
         // ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.0),

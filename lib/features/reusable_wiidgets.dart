@@ -123,6 +123,7 @@ Widget packageContainer(BuildContext context, String title,
     Color bgColor,
     bool isElevated = true,
     var books,
+    List<VideoData> videos,
     List<PackageData> package}) {
   return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
     Padding(
@@ -159,7 +160,7 @@ Widget packageContainer(BuildContext context, String title,
               return InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => DetailsView(pkg),
+                    builder: (_) => DetailsView(pkg, "package"),
                   ));
                 },
                 child: Container(
@@ -308,7 +309,7 @@ Widget packageContainer(BuildContext context, String title,
               return InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => DetailsView(pkg),
+                    builder: (_) => DetailsView(pkg, 'books'),
                   ));
                 },
                 child: Container(

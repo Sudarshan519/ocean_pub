@@ -39,108 +39,74 @@ class _HomepageViewState extends State<HomepageView> {
       key: _scaffoldKey,
       drawer: DrawerView(),
       appBar: appBarWithSearch(context),
-      bottomNavigationBar: buildBottomNavigationBar(context),
+      // bottomNavigationBar: buildBottomNavigationBar(context),
       // backgroundColor: Color(0xffDEDBDB),
       body: tabs[_navBarIndex],
     );
   }
 
-  Widget optionChoiceButtons(
-      BuildContext context, HomepageViewmodel viewmodel) {
-    return Container(
-      width: context.screenWidth,
-      height: context.screenHeight * 0.05,
-      // color: Colors.grey,
-      alignment: Alignment.center,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(width: 5),
-          ...choices.map(
-            (e) {
-              return InkWell(
-                onTap: selectedIndex == choices.indexOf(e)
-                    ? null
-                    : () {
-                        setState(() {
-                          selectedIndex = choices.indexOf(e);
-                        });
-                        viewmodel.changeActiveList(selectedIndex);
-                      },
-                child: optionButton(context, e.icon, e.title.toUpperCase(),
-                    isSelected: false // selectedIndex == choices.indexOf(e),
-                    ),
-              );
-            },
-          ).toList(),
-          SizedBox(
-            width: 6,
-          ),
-          // Icon(Icons.auto_awesome_mosaic_outlined,
-          //     color: Theme.of(context).primaryColor),
-          // text(
-          //   "View All".toUpperCase(),
-          //   fontweight: FontWeight.w500,
-          //   // textColor: Colors.grey,
-          //   fontSize: context.textTheme.subtitle2.fontSize,
-          // ),
-          // (
-          //       "View All",
-          //       style: TextStyle(
-          //           color: Colors.grey,
-          //           fontSize: context.textTheme.subtitle2.fontSize),
-          //     ),
-          // Icon(Icons.auto_awesome_mosaic_outlined,
-          //     color: Theme.of(context).primaryColor),
-          // Text(
-          //   "View All",
-          //   style: TextStyle(color: Theme.of(context).primaryColor),
-          // )
-          // optionButton(
-          //   context,
-          //   categoryIcon,
-          //   e.title.toUpperCase(),
-          //   isSelected: selectedIndex == choices.indexOf(e),
-          // ),
-        ],
-      ),
-    );
-  }
-
-  BottomNavigationBar buildBottomNavigationBar(BuildContext context) {
-    return BottomNavigationBar(
-        backgroundColor: Color(0xffDEDBDB),
-        showUnselectedLabels: true,
-        onTap: (index) async {
-          // change page
-          // if (index % 2 == 0)
-          //   Navigator.push(
-          //       context, MaterialPageRoute(builder: (context) => VideoApp()));
-          // } else {
-          // push(context, LetsExploreView());
-          // }
-          setState(() {
-            _navBarIndex = index;
-          });
-        },
-        currentIndex: _navBarIndex,
-        selectedItemColor: colorPrimary,
-        unselectedItemColor: colorPrimary,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-        items: [
-          BottomNavigationBarItem(
-              icon: icon(homeIcon, color: Color(0xff005AAA)), label: "Home"),
-          BottomNavigationBarItem(
-              icon: icon(categoriesIcon, color: Color(0xff005AAA)),
-              label: "Categories"),
-          BottomNavigationBarItem(
-              icon: icon(libraryIcon, color: Color(0xff005AAA)),
-              label: "My library"),
-          BottomNavigationBarItem(
-              icon: icon(userIcon, color: Color(0xff005AAA)), label: "Profile"),
-        ]);
-  }
+  // Widget optionChoiceButtons(
+  //     BuildContext context, HomepageViewmodel viewmodel) {
+  //   return Container(
+  //     width: context.screenWidth,
+  //     height: 60, //context.screenHeight * 0.05,
+  //     // color: Colors.grey,
+  //     alignment: Alignment.center,
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //       crossAxisAlignment: CrossAxisAlignment.center,
+  //       children: [
+  //         SizedBox(width: 5),
+  //         ...choices.map(
+  //           (e) {
+  //             return InkWell(
+  //               onTap: selectedIndex == choices.indexOf(e)
+  //                   ? null
+  //                   : () {
+  //                       setState(() {
+  //                         selectedIndex = choices.indexOf(e);
+  //                       });
+  //                       viewmodel.changeActiveList(selectedIndex);
+  //                     },
+  //               child: optionButton(context, e.icon, e.title.toUpperCase(),
+  //                   isSelected: false // selectedIndex == choices.indexOf(e),
+  //                   ),
+  //             );
+  //           },
+  //         ).toList(),
+  //         SizedBox(
+  //           width: 6,
+  //         ),
+  //         // Icon(Icons.auto_awesome_mosaic_outlined,
+  //         //     color: Theme.of(context).primaryColor),
+  //         // text(
+  //         //   "View All".toUpperCase(),
+  //         //   fontweight: FontWeight.w500,
+  //         //   // textColor: Colors.grey,
+  //         //   fontSize: context.textTheme.subtitle2.fontSize,
+  //         // ),
+  //         // (
+  //         //       "View All",
+  //         //       style: TextStyle(
+  //         //           color: Colors.grey,
+  //         //           fontSize: context.textTheme.subtitle2.fontSize),
+  //         //     ),
+  //         // Icon(Icons.auto_awesome_mosaic_outlined,
+  //         //     color: Theme.of(context).primaryColor),
+  //         // Text(
+  //         //   "View All",
+  //         //   style: TextStyle(color: Theme.of(context).primaryColor),
+  //         // )
+  //         // optionButton(
+  //         //   context,
+  //         //   categoryIcon,
+  //         //   e.title.toUpperCase(),
+  //         //   isSelected: selectedIndex == choices.indexOf(e),
+  //         // ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget sliderImage(Banners banners) {
     return Padding(
@@ -316,59 +282,52 @@ class _HomeState extends State<Home> {
   Widget optionChoiceButtons(
       BuildContext context, HomepageViewmodel viewmodel) {
     return Container(
-      width: context.screenWidth,
-      height: context.screenHeight * 0.05,
+      // width: context.screenWidth,
+      height: 60, // context.screenHeight * 0.05,
       // color: Colors.grey,
       alignment: Alignment.center,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(width: 5),
-            ...choices.map(
-              (e) {
-                return InkWell(
-                  onTap: () {},
-                  child: optionButton(context, e.icon, e.title.toUpperCase(),
-                      isSelected: false // selectedIndex == choices.indexOf(e),
-                      ),
-                );
-              },
-            ).toList(),
-            SizedBox(
-              width: 6,
-            ),
-            // Icon(Icons.auto_awesome_mosaic_outlined,
-            //     color: Theme.of(context).primaryColor),
-            // text(
-            //   "View All".toUpperCase(),
-            //   fontweight: FontWeight.w500,
-            //   // textColor: Colors.grey,
-            //   fontSize: context.textTheme.subtitle2.fontSize,
-            // ),
-            // (
-            //       "View All",
-            //       style: TextStyle(
-            //           color: Colors.grey,
-            //           fontSize: context.textTheme.subtitle2.fontSize),
-            //     ),
-            // Icon(Icons.auto_awesome_mosaic_outlined,
-            //     color: Theme.of(context).primaryColor),
-            // Text(
-            //   "View All",
-            //   style: TextStyle(color: Theme.of(context).primaryColor),
-            // )
-            // optionButton(
-            //   context,
-            //   categoryIcon,
-            //   e.title.toUpperCase(),
-            //   isSelected: selectedIndex == choices.indexOf(e),
-            // ),
-          ],
-        ),
-      ),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: choices.map(
+            (e) {
+              return InkWell(
+                onTap: () {},
+                child: optionButton(context, e.icon, e.title.toUpperCase(),
+                    isSelected: true // selectedIndex == choices.indexOf(e),
+                    ),
+              );
+            },
+          ).toList()),
+
+      // Icon(Icons.auto_awesome_mosaic_outlined,
+      //     color: Theme.of(context).primaryColor),
+      // text(
+      //   "View All".toUpperCase(),
+      //   fontweight: FontWeight.w500,
+      //   // textColor: Colors.grey,
+      //   fontSize: context.textTheme.subtitle2.fontSize,
+      // ),
+      // (
+      //       "View All",
+      //       style: TextStyle(
+      //           color: Colors.grey,
+      //           fontSize: context.textTheme.subtitle2.fontSize),
+      //     ),
+      // Icon(Icons.auto_awesome_mosaic_outlined,
+      //     color: Theme.of(context).primaryColor),
+      // Text(
+      //   "View All",
+      //   style: TextStyle(color: Theme.of(context).primaryColor),
+      // )
+      // optionButton(
+      //   context,
+      //   categoryIcon,
+      //   e.title.toUpperCase(),
+      //   isSelected: selectedIndex == choices.indexOf(e),
+      // ),
+      // ],
+      // ),
     );
   }
 

@@ -70,7 +70,7 @@ Widget bookCard(BuildContext context, dynamic object) {
     onTap: () {
       push(
         context,
-        DetailsView(object),
+        DetailsView(object, "books"),
       );
     },
     child: Container(

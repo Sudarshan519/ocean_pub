@@ -512,7 +512,7 @@ class PackageData {
             : json["description"].toString().length > 650
                 ? json["description"].replaceRange(650, null, "")
                 : json["description"],
-        status: json["status"] == null ? null : json["status"],
+        status: json["status"] == null ? null : json["status"].toString(),
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),

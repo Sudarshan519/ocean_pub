@@ -4,7 +4,7 @@ import 'package:publication_app/features/details/details_view.dart';
 import 'package:publication_app/models/homepage_response.dart';
 import 'package:publication_app/utils/assets.dart';
 import 'package:publication_app/utils/functions.dart';
-import 'package:velocity_x/velocity_x.dart';
+// import 'package:velocity_x/velocity_x.dart';
 import 'package:publication_app/utils/extensions.dart';
 import '../colors.dart';
 import '../widgets.dart';
@@ -70,7 +70,7 @@ Widget bookCard(BuildContext context, dynamic object) {
     onTap: () {
       push(
         context,
-        DetailsView(object, "books"),
+        DetailsView(object, "book"),
       );
     },
     child: Container(

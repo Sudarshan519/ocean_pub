@@ -56,7 +56,7 @@ class _DetailsViewState extends State<DetailsView> {
     } else {
       // var bdata = await getRequest(
       //     "/${widget.type == "package" ? "package" : "books"}" + "/$slug");
-      BookApi bookApi = bookApiFromJson(bdata.body);
+      BookApi bookApi = bookApiFromJson(bdata.body );
 
       book = bookApi;
       loading = false;
@@ -226,9 +226,9 @@ class _DetailsViewState extends State<DetailsView> {
                                                 DetailsView(
                                                     book.data
                                                         .relatedProducts[i],
-                                                    "books")),
+                                                    "book")),
                                             child: Container(
-                                              width: 180,
+                                              width: 140,
                                               margin:
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 18),
@@ -254,8 +254,7 @@ class _DetailsViewState extends State<DetailsView> {
                                                             BorderRadius
                                                                 .circular(16),
                                                       ),
-                                                      height: 220,
-                                                      width: 180,
+                                                      height: 200, 
                                                     ),
                                                   ),
                                                   16.heightBox,
@@ -453,7 +452,7 @@ class _DetailsViewState extends State<DetailsView> {
                       image: CachedNetworkImageProvider(object.image),
                       fit: BoxFit.fill)),
               height: 200,
-              width: 130,
+              width: 140,
               // color: Colors.grey.shade200,
               // child: networkImage(object.image, fit: BoxFit.fill),
             ),

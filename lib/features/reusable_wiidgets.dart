@@ -309,7 +309,7 @@ Widget packageContainer(BuildContext context, String title,
               return InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => DetailsView(pkg, 'books'),
+                    builder: (_) => DetailsView(pkg, 'book'),
                   ));
                 },
                 child: Container(

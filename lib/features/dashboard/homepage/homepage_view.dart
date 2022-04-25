@@ -32,15 +32,15 @@ class _HomepageViewState extends State<HomepageView> {
   ];
   @override
   Widget build(BuildContext context) {
-    // HomepageViewmodel().getHomepageData();
+   
     return
-        // print(viewmodel.homepageData.banner.toString());
+      
         Scaffold(
       key: _scaffoldKey,
       drawer: DrawerView(),
       appBar: appBarWithSearch(context),
-      // bottomNavigationBar: buildBottomNavigationBar(context),
-      // backgroundColor: Color(0xffDEDBDB),
+    bottomNavigationBar: buildBottomNavigationBar(context),
+ 
       body: tabs[_navBarIndex],
     );
   }
@@ -108,6 +108,39 @@ class _HomepageViewState extends State<HomepageView> {
   //   );
   // }
 
+  BottomNavigationBar buildBottomNavigationBar(BuildContext context) {
+    return BottomNavigationBar(
+        backgroundColor: Color(0xffDEDBDB),
+        showUnselectedLabels: true,
+        onTap: (index) async {
+          // change page
+          // if (index % 2 == 0)
+          //   Navigator.push(
+          //       context, MaterialPageRoute(builder: (context) => VideoApp()));
+          // } else {
+          // push(context, LetsExploreView());
+          // }
+          setState(() {
+            _navBarIndex = index;
+          });
+        },
+        currentIndex: _navBarIndex,
+        selectedItemColor: colorPrimary,
+        unselectedItemColor: colorPrimary,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
+        items: [
+          BottomNavigationBarItem(
+              icon: icon(homeIcon, color: Color(0xff005AAA)), label: "Home"),
+          BottomNavigationBarItem(
+              icon: icon(categoriesIcon, color: Color(0xff005AAA)),
+              label: "Categories"),
+          BottomNavigationBarItem(
+              icon: icon(libraryIcon, color: Color(0xff005AAA)),
+              label: "My library"),
+          BottomNavigationBarItem(
+              icon: icon(userIcon, color: Color(0xff005AAA)), label: "Profile"),
+        ]);
+  }
   Widget sliderImage(Banners banners) {
     return Padding(
       padding: EdgeInsets.symmetric(

@@ -51,13 +51,13 @@ class HomepageData {
   final List<Banners> banner;
   final Books books;
   final List<Video> video;
-  final List<Package> packages;
+  final List<PackageData> packages;
 
   HomepageData copyWith({
     List<Banners> banner,
     Books books,
     List<Video> video,
-    List<Package> packages,
+    List<PackageData> packages,
   }) =>
       HomepageData(
         banner: banner ?? this.banner,
@@ -77,8 +77,8 @@ class HomepageData {
                 json["video"]["data"].map((x) => Video.fromMap(x))),
         packages: json["packages"] == null
             ? null
-            : List<Package>.from(
-                json["packages"]["data"].map((x) => Package.fromMap(x))),
+            : List<PackageData>.from(
+                json["packages"]["data"].map((x) => PackageData.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:publication_app/features/cart/cart_viewmodel.dart';
-import 'package:publication_app/models/homepage_response.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -33,8 +32,33 @@ class CartService {
       await openDB();
     }
     var map = item.toMap();
+    print(item.id);
+    print(map);
     print(jsonEncode(map));
     await database.insert(tableName, map);
+  }
+
+  updateToDB(CartItem item) async {
+    //
+    if (database == null) {
+      await openDB();
+    }
+    var map = item.toMap();
+    print(item.id);
+    print(map);
+    print(jsonEncode(map));
+    await database.update(tableName, map);
+  }
+
+  queryItemDB(id) async {
+    if (database == null) {
+      await openDB();
+    }
+
+    var data = await database.query(tableName, where: "id=?", whereArgs: [id]);
+    print(data);
+    if (data.length > 0) return true;
+    return false;
   }
 
   Future<List<CartItem>> getFromDB() async {

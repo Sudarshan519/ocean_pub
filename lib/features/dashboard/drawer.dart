@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:publication_app/features/allcourses/allcourses_view.dart';
 import 'package:publication_app/features/authentication/auth_presenter.dart';
 import 'package:publication_app/features/authors/authors_view.dart';
-import 'package:publication_app/features/bookdetail/book_detail_view.dart';
 import 'package:publication_app/features/distributors/distributors_view.dart';
 import 'package:publication_app/features/lets_explore/lets_explore_view.dart';
-import 'package:publication_app/features/notification/notifications_view.dart';
-import 'package:publication_app/features/profile/profile_view.dart';
 import 'package:publication_app/utils/assets.dart';
 import 'package:publication_app/utils/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -65,34 +62,46 @@ class DrawerView extends StatelessWidget {
             //     accountName: Text("Ocean Publication"),
             //     accountEmail: Text("www.oceanpublication.com.np")),
             Container(
-              //
-              height: context.screenHeight * 0.25,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(authBackgroundImage),
-                  fit: BoxFit.cover,
+                //
+                height: context.screenHeight * 0.25,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(authBackgroundImage),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  assetimage(logo),
-                  // 10.heightBox,
-                  // text(
-                  //   "Ocean ",
-                  //   fontweight: FontWeight.w700,
-                  //   fontSize: context.textTheme.headline6.fontSize,
-                  // ),
-                  // text(
-                  //   "Publication Pvt. Ltd.",
-                  //   textColor: Colors.white,
-                  //   fontweight: FontWeight.w600,
-                  //   fontSize: context.textTheme.subtitle1.fontSize,
-                  // ),
-                  5.heightBox,
-                ],
-              ),
-            ),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  color: Colors.transparent.withOpacity(.2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        width: 90,
+                        height: 80,
+                        decoration: BoxDecoration(
+                            // borderRadius: BorderRadius.circular(18),
+                            // shape: BoxShape.rectangle,
+                            // color: Colors.white.withOpacity(.5),
+                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            "assets/icons/logo.png",
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "Ocean Publication",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      10.heightBox,
+                    ],
+                  ),
+                )),
             ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,

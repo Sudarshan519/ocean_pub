@@ -1,14 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:publication_app/features/authors/author_profile_view.dart';
 import 'package:publication_app/features/cart/cart_view.dart';
 import 'package:publication_app/features/cart/cart_viewmodel.dart';
 import 'package:publication_app/features/checkout/checkout_view.dart';
-import 'package:publication_app/features/reusable_wiidgets.dart';
 import 'package:publication_app/models/authors.dart';
 import 'package:publication_app/models/homepage_response.dart';
-import 'package:publication_app/models/view_all_response.dart';
 import '../extensions.dart';
 import 'package:publication_app/utils/colors.dart';
 import 'package:publication_app/utils/functions.dart';
@@ -37,7 +34,7 @@ class StackedElevatedImage extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            right: 0.0,
+            right: 10.0,
             bottom: 0.0,
             child: Container(
               width: context.screenWidth,
@@ -69,18 +66,33 @@ class StackedElevatedImage extends StatelessWidget {
 
   Widget imageBuilder(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(5.0),
+      borderRadius: BorderRadius.circular(10),
       child: Container(
         width: context.screenWidth * 0.34,
         height: context.screenHeight * 0.18,
-        color: Colors.white,
-        child: CachedNetworkImage(
-          imageUrl: image.contains('https://oceanpublication.com.np/')
-              ? image
-              : "https://oceanpublication.com.np/$image",
-          placeholder: (context, _) => Image.asset("assets/icons/profile.png"),
-          fit: BoxFit.cover,
-        ),
+
+        decoration: BoxDecoration(
+            color: Colors.grey,
+            image: DecorationImage(
+                image: CachedNetworkImageProvider(
+                  image,
+                ),
+                fit: BoxFit.fitHeight)),
+        // decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
+        // color: Colors.white,
+        // child: ClipRRect(
+        //   borderRadius: BorderRadius.circular(10),
+        // child: networkImage(
+        //   image,
+        //   fit: BoxFit.contain,
+        // ),
+        // child: CachedNetworkImage(
+        //   imageUrl: image.contains('https://oceanpublication.com.np/')
+        //       ? image
+        //       : "https://oceanpublication.com.np/$image",
+        // placeholder: (context, _) => Image.asset("assets/icons/profile.png"),
+        // fit: BoxFit.cover,
+        // ),
       ),
     );
   }

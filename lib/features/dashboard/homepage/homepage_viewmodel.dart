@@ -9,19 +9,19 @@ class HomepageViewmodel extends BaseViewModel {
   HomepageData homepageData;
   Future<void> getHomepageData() async {
     //
-    print("hheelloo");
+    // print("hheelloo");
     setBusy(true);
     try {
       _homepageResponse = await _homepageRepository.getHomepageData();
-      print(_homepageResponse.data);
+      // print(_homepageResponse.data);
       homepageData = _homepageResponse.data;
-      print(homepageData.banner);
+      // print(homepageData.banner);
       changeActiveList(0);
     } catch (e) {
       print(e.toString());
     }
     setBusy(false);
-    print("clear");
+    // print("clear");
     notifyListeners();
   }
 

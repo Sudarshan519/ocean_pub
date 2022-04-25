@@ -63,6 +63,12 @@ class _CartViewState extends State<CartView> {
                   ),
                 ),
           appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
             title: text(
               "My Cart",
               textColor: whiteColor,
@@ -139,6 +145,7 @@ class _CartViewState extends State<CartView> {
                   children: [
                     text(
                       item.name,
+                      maxLine: 1,
                       isCentered: false,
                       fontweight: FontWeight.w500,
                       fontSize: context.textTheme.headline6.fontSize,

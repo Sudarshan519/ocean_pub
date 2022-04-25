@@ -21,12 +21,12 @@ class LetsExploreViewmodel extends BaseViewModel {
   Future<void> getAllItems(String itemTitle) async {
     setBusy(true);
     await getUserAndToken();
-    print(itemTitle);
+    // print(itemTitle);
     //
     var response = await getRequest("/letsexplore/$itemTitle");
     _letsExploreResponse = letsExploreResponseFromMap(response.body);
     letsExploreData = _letsExploreResponse.data;
-    print(letsExploreData.items.length);
+    // print(letsExploreData.items.length);
     setBusy(false);
     notifyListeners();
   }

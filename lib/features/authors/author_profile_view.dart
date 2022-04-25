@@ -50,27 +50,32 @@ class AuthorProfileView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      ...List.generate(
-                        authorData.books.length,
-                        (index) => InkWell(
-                          onTap: () {
-                            push(context, DetailsView(authorData.books[index]));
-                          },
-                          child: Container(
-                            height: context.screenHeight * 0.06,
-                            width: context.screenWidth * 0.75,
-                            color:
-                                index.isEven ? Colors.grey.shade300 : greyColor,
-                            child: Center(
-                              child: text(
-                                "${authorData.books[index].title}",
-                                fontSize: context.textTheme.subtitle1.fontSize,
-                                textColor: blackColor,
+                      if (authorData.books != null)
+                        // if (authorData.books.length > 0)
+                        ...List.generate(
+                          authorData.books.length,
+                          (index) => InkWell(
+                            onTap: () {
+                              push(context,
+                                  DetailsView(authorData.books[index]));
+                            },
+                            child: Container(
+                              height: context.screenHeight * 0.06,
+                              width: context.screenWidth * 0.75,
+                              color: index.isEven
+                                  ? Colors.grey.shade300
+                                  : greyColor,
+                              child: Center(
+                                child: text(
+                                  "${authorData.books[index].title}",
+                                  fontSize:
+                                      context.textTheme.subtitle1.fontSize,
+                                  textColor: blackColor,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 )

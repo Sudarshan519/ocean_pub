@@ -124,7 +124,12 @@ class _DetailsViewState extends State<DetailsView> {
                             //         .toString())
                             //     .ashtmlTags,
                             text: !isReadingMore
-                                ? loremText.substring(0, 480)
+                                ? object.description == null
+                                    ? ""
+                                    // : object.description.length > 480
+                                    //     ? object.description.substring(0, 480)
+                                    //     :
+                                    : object.description
                                 : loremText,
                             style: TextStyle(color: colorPrimary),
                             //   children: object.shortDescription != null

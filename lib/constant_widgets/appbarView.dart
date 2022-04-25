@@ -25,7 +25,9 @@ Widget appBarWithSearch(BuildContext context,
         child: TextField(
           style: TextStyle(color: colorPrimary, fontSize: 12.0),
           decoration: InputDecoration(
-            hintStyle: TextStyle(fontSize: 12.0),
+            hintStyle: TextStyle(
+              fontSize: 16,
+            ),
             prefixIcon: Icon(
               Icons.search,
               color: colorPrimary,
@@ -41,16 +43,16 @@ Widget appBarWithSearch(BuildContext context,
         ),
       ),
       actions: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: InkWell(
-              splashColor: Colors.transparent,
-              onTap: () {
-                //apply search
-                print("search");
-              },
-              child: Icon(Icons.search)),
-        ),
+        // Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: 10.0),
+        //   child: InkWell(
+        //       splashColor: Colors.transparent,
+        //       onTap: () {
+        //         //apply search
+        //         print("search");
+        //       },
+        //       child: Icon(CupertinoIcons.person_alt_circle)),
+        // ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.0),
           child: InkWell(

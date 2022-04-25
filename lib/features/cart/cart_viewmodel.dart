@@ -20,9 +20,10 @@ class CartViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> addToCart(dynamic item) async {
+  Future<void> updateCart(dynamic item) async {
     //
     var cartItem = CartItem(
+      id: item.id,
       image: item.image,
       name: item.title,
       author: item is PackageData ? "" : item.author,
@@ -34,8 +35,43 @@ class CartViewModel extends BaseViewModel {
               : "Package",
       quantity: 1,
     );
-    await _cartService.addToDB(cartItem);
-    print("added");
+
+    bool cartContainsItem = await _cartService.queryItemDB(item.id);
+    print(cartContainsItem);
+    if (cartContainsItem)
+      print("already on cart");
+    //  await _cartService.
+    else {
+      await _cartService.addToDB(cartItem);
+      // print("added");
+    }
+  }
+
+  Future<void> addToCart(dynamic item) async {
+    //
+    var cartItem = CartItem(
+      id: item.id,
+      image: item.image,
+      name: item.title,
+      author: item is PackageData ? "" : item.author,
+      price: item.price,
+      type: item is BookData
+          ? "Book"
+          : item is VideoData
+              ? "Video"
+              : "Package",
+      quantity: 1,
+    );
+
+    bool cartContainsItem = await _cartService.queryItemDB(item.id);
+    print(cartContainsItem);
+    if (cartContainsItem)
+      print("already on cart");
+    //  await _cartService.
+    else {
+      await _cartService.addToDB(cartItem);
+      // print("added");
+    }
   }
 }
 

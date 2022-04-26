@@ -22,7 +22,7 @@ class HomeController extends GetxController {
       print(e.toString());
     }
     getCategoryData();
-    busy.toggle();
+    busy.value = false;
   }
 
   getCategoryData() async {

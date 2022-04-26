@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:publication_app/constant_widgets/appbarView.dart';
 import 'package:publication_app/features/cart/cart_view.dart';
 import 'package:publication_app/features/cart/cart_viewmodel.dart';
 import 'package:publication_app/features/checkout/checkout_view.dart';
+import 'package:publication_app/features/details/video_widget.dart';
 import 'package:publication_app/models/book.dart';
 import 'package:publication_app/models/homepage_response.dart';
 import 'package:publication_app/models/video.dart';
@@ -92,7 +94,7 @@ class _DetailsViewState extends State<DetailsView> {
             : SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   // direction: Axis.vertical,
                   children: [
                     // stackedCoverView(),
@@ -675,92 +677,6 @@ class _DetailsViewState extends State<DetailsView> {
         ),
       ),
     );
-  }
-}
-
-class VideoPage extends StatefulWidget {
-  final VideoApi video;
-  const VideoPage({Key key, this.video}) : super(key: key);
-
-  @override
-  State<VideoPage> createState() => _VideoPageState();
-}
-
-class _VideoPageState extends State<VideoPage> {
-  VideoPlayerController _controller;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    initVideo();
-  }
-
-  initVideo() async {
-    var controller =
-        VideoPlayerController.network(widget.video.data.video.videoUrl);
-    await controller.initialize().then((_) {
-      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-      // setState(() {});
-    });
-    _controller = controller;
-    setState(() {});
-    if (_controller.value.isInitialized) _controller.play();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    print(widget.video.data.video.videoUrl);
-    return _controller == null
-        ? Center(child: CircularProgressIndicator())
-        : Stack(
-            alignment: Alignment.center,
-            children: [
-              Column(children: [
-                SizedBox(height: 200, child: VideoPlayer(_controller))
-              ]),
-              Center(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.white,
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-              ),
-              Positioned.fill(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 30,
-                    width: double.infinity,
-                    color: Colors.grey.withOpacity(.8),
-                    child: Container(
-                      width: 200,
-                      height: 1,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-              InkWell(
-                  onTap: () {
-                    _controller.play();
-                  },
-                  child: Icon(Icons.refresh, color: Colors.white))
-            ],
-          );
   }
 }
 

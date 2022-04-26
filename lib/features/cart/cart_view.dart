@@ -1,9 +1,7 @@
 import 'package:esewa_pnp/esewa.dart';
 import 'package:esewa_pnp/esewa_pnp.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:publication_app/base/base_view.dart';
-import 'package:publication_app/features/reusable_wiidgets.dart';
 import 'package:publication_app/utils/colors.dart';
 import 'package:publication_app/utils/assets.dart';
 import 'package:publication_app/utils/reusable_widgets/elevated_stacked_image.dart';
@@ -12,6 +10,8 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:publication_app/utils/extensions.dart';
 
 import 'cart_viewmodel.dart';
+
+var buttonRadius = 4.0;
 
 class CartView extends StatefulWidget {
   @override
@@ -131,132 +131,119 @@ class _CartViewState extends State<CartView> {
   }
 
   Widget checkoutItemDetail(CartItem item, {Function onTappedRemoveButton}) {
-    return Padding(
-      padding: EdgeInsets.all(3.0),
-      child: Stack(
-        children: [
-          LayoutBuilder(
-            builder: (context, constrains) {
-              return Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
+      children: [
+        LayoutBuilder(
+          builder: (context, constrains) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                text(
+                  item.name,
+                  maxLine: 1,
+                  isCentered: false,
+                  fontweight: FontWeight.w500,
+                  fontSize: context.textTheme.headline6.fontSize,
+                ),
+                3.heightBox,
+                text(
+                  item.author == "" ? "Package" : "${item.author}",
+                  isCentered: false,
+                  fontweight: FontWeight.w600,
+                  fontSize: context.textTheme.subtitle2.fontSize,
+                ),
+                3.heightBox,
+                text(
+                  "${item.price * item.quantity}".toCurrency,
+                  isCentered: false,
+                  // decoration: TextDecoration.lineThrough,
+                  fontweight: FontWeight.w400,
+                  fontSize: context.textTheme.subtitle2.fontSize,
+                ),
+                // Container(
+                //   child: text(
+                //     "fhajkf", //      "${widget.item.offerPrice}".toCurrency,
+                //     textColor: Colors.green,
+                //     isCentered: true,
+                //     fontweight: FontWeight.w500,
+                //     fontSize: context.textTheme.subtitle2.fontSize,
+                //   ),
+                // ),
+                5.heightBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    text(
-                      item.name,
-                      maxLine: 1,
-                      isCentered: false,
-                      fontweight: FontWeight.w500,
-                      fontSize: context.textTheme.headline6.fontSize,
-                    ),
-                    5.heightBox,
-                    text(
-                      item.author == "" ? "Package" : "${item.author}",
-                      isCentered: false,
-                      fontweight: FontWeight.w600,
-                      fontSize: context.textTheme.subtitle2.fontSize,
-                    ),
-                    5.heightBox,
-                    text(
-                      "${item.price * item.quantity}".toCurrency,
-                      isCentered: false,
-                      // decoration: TextDecoration.lineThrough,
-                      fontweight: FontWeight.w400,
-                      fontSize: context.textTheme.subtitle2.fontSize,
-                    ),
-                    // Container(
-                    //   child: text(
-                    //     "fhajkf", //      "${widget.item.offerPrice}".toCurrency,
-                    //     textColor: Colors.green,
-                    //     isCentered: true,
-                    //     fontweight: FontWeight.w500,
-                    //     fontSize: context.textTheme.subtitle2.fontSize,
-                    //   ),
-                    // ),
-                    5.heightBox,
-                    Container(
-                      width: constrains.maxWidth,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: constrains.maxWidth * 0.45,
-                            height: constrains.maxHeight * 0.15,
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                //
-                                _incr_decr_Button(
-                                  constrains,
-                                  icon: FlutterIcons.minus_ant,
-                                  action: () {
-                                    item.quantity--;
-                                  },
-                                ),
-                                Container(
-                                  height: 20.0,
-                                  width: constrains.maxWidth * 0.15,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: colorPrimary),
-                                  ),
-                                  child: Center(
-                                    child: text(
-                                      "${item.quantity}",
-                                      isCentered: true,
-                                      fontSize:
-                                          context.textTheme.subtitle2.fontSize,
-                                    ),
-                                  ),
-                                ),
-                                _incr_decr_Button(
-                                  constrains,
-                                  icon: FlutterIcons.plus_ant,
-                                  action: () {
-                                    item.quantity++;
-                                  },
-                                ),
-                              ],
+                    Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        //
+                        _incr_decr_Button(
+                          constrains,
+                          icon: Icons.remove,
+                          action: () {
+                            item.quantity--;
+                          },
+                        ),
+                        Container(
+                          height: 25.0,
+                          width: constrains.maxWidth * 0.15,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: Center(
+                            child: text(
+                              "${item.quantity}",
+                              isCentered: true,
+                              textColor: Colors.grey,
+                              fontSize: context.textTheme.subtitle2.fontSize,
                             ),
                           ),
-                          Row(
-                            children: [
-                              CustomOutlineButton(
-                                onTapped: onTappedRemoveButton,
-                              ),
-                              5.widthBox,
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
+                        ),
+                        _incr_decr_Button(
+                          constrains,
+                          icon: Icons.add,
+                          action: () {
+                            item.quantity++;
+                          },
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        CustomOutlineButton(
+                          onTapped: onTappedRemoveButton,
+                        ),
+                        5.widthBox,
+                      ],
+                    ),
                   ],
-                ),
-              );
-            },
-          ),
-          Positioned(
-            right: 3.0,
-            top: 3.0,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                icon(
-                  item.type == "Video"
-                      ? videoIcon
-                      : item.type == "Package"
-                          ? packageIcon
-                          : bookIcon,
-                  width: 18.0,
-                  height: 18.0,
-                ),
-                2.widthBox,
-                text(item.type),
+                )
               ],
-            ),
+            );
+          },
+        ),
+        Positioned(
+          right: 3.0,
+          top: 3.0,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              icon(
+                item.type == "Video"
+                    ? videoIcon
+                    : item.type == "Package"
+                        ? packageIcon
+                        : bookIcon,
+                width: 18.0,
+                height: 18.0,
+              ),
+              2.widthBox,
+              text(item.type),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -269,15 +256,25 @@ class _CartViewState extends State<CartView> {
         });
       },
       child: Container(
-        width: 20.0,
-        height: 20.0,
+        width: 25.0,
+        height: 25.0,
         decoration: BoxDecoration(
-          border: Border.all(color: colorPrimary),
+          color: Colors.grey.shade200,
+          borderRadius: icon == Icons.add
+              ? BorderRadius.only(
+                  topRight: Radius.circular(buttonRadius),
+                  bottomRight: Radius.circular(buttonRadius),
+                )
+              : BorderRadius.only(
+                  topLeft: Radius.circular(buttonRadius),
+                  bottomLeft: Radius.circular(buttonRadius),
+                ),
+          border: Border.all(color: Colors.grey),
         ),
         child: Icon(
           icon,
-          color: colorPrimary,
-          size: 12.0,
+          color: Colors.grey[600],
+          size: 18.0,
         ),
       ),
     );
@@ -325,12 +322,12 @@ class CartSummaryWidget extends StatelessWidget {
                           title: "Total Quantity",
                           detail: "$quantity",
                         ),
-                        divider(),
+                        // divider(),
                         summaryDetails(
                           title: "Subtotal",
                           detail: "$totalPrice".toCurrency,
                         ),
-                        divider(),
+                        // divider(),
                         summaryDetails(
                             title: "Discount", detail: "0".toCurrency),
                         dottedLine(),
@@ -340,7 +337,7 @@ class CartSummaryWidget extends StatelessWidget {
                           color: blackColor,
                         ),
                         8.heightBox,
-                        divider(),
+                        // divider(),
                       ],
                     ),
                   ),
@@ -366,10 +363,12 @@ class CartSummaryWidget extends StatelessWidget {
                                 child: Container(
                                   height: context.screenWidth * 0.1,
                                   decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.grey, width: 1),
-                                      image: DecorationImage(
-                                          image: AssetImage(esewaIcon))),
+                                    border: Border.all(
+                                        color: Colors.grey, width: 1),
+                                    image: DecorationImage(
+                                        image: AssetImage(esewaIcon),
+                                        fit: BoxFit.fitWidth),
+                                  ),
                                   child: InkWell(
                                     child: icon(
                                       esewaIcon,
@@ -419,11 +418,11 @@ class CartSummaryWidget extends StatelessWidget {
                               ),
                               // ignore: deprecated_member_use
                               Expanded(
-                                child: OutlineButton(
+                                child: ElevatedButton(
                                   onPressed: () {
                                     //
                                   },
-                                  borderSide: BorderSide(color: colorPrimary),
+                                  // borderSide: BorderSide(color: colorPrimary),
                                   child: text("Cash on Delivery"),
                                 ),
                               )

@@ -106,8 +106,7 @@ class AuthenticationPresenter extends StatelessWidget {
             child: Container(
               height: 45.0,
               width: context.screenWidth * 0.4,
-              child: RaisedButton(
-                color: colorPrimary,
+              child: ElevatedButton(
                 onPressed: onButtonTapped,
                 child: text(
                   formType == FormType.login ? "Login" : "Signup",

@@ -68,7 +68,7 @@ class StackedElevatedImage extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: Container(
-        width: context.screenWidth * 0.34,
+        width: context.screenWidth * 0.3,
         height: context.screenHeight * 0.18,
 
         decoration: BoxDecoration(
@@ -77,7 +77,7 @@ class StackedElevatedImage extends StatelessWidget {
                 image: CachedNetworkImageProvider(
                   image,
                 ),
-                fit: BoxFit.fitHeight)),
+                fit: BoxFit.fill)),
         // decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
         // color: Colors.white,
         // child: ClipRRect(
@@ -150,7 +150,7 @@ class BookDetailsWidgetForElevatedDisplay extends StatelessWidget {
             ),
             5.heightBox,
             text(
-              item is PackageData ? "" : item.author,
+              item is Packages ? "" : item.author,
               textColor: greyColor,
               fontweight: FontWeight.w300,
               fontSize: context.textTheme.caption.fontSize,

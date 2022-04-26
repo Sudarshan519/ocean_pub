@@ -26,7 +26,7 @@ Widget networkImage(String url,
   return CachedNetworkImage(
     imageUrl: url,
     errorWidget: (_, __, ___) => assetimage(errorImage),
-    placeholder: (context, title) => SpinKitChasingDots(color: colorPrimary),
+    // placeholder: (context, title) => Container(),
   );
 }
 

@@ -73,11 +73,11 @@ class _CartViewState extends State<CheckoutView> {
                           height: context.screenHeight * 0.24 - 10,
                           width: context.screenWidth * 0.85 - 10,
                           child: FittedBox(
-                            child: StackedElevatedImage(
-                              detailsWidget: checkoutItemDetail(),
-                              image: widget.item.image,
-                            ),
-                          ),
+                              // child: StackedElevatedImage(
+                              //   detailsWidget: checkoutItemDetail(),
+                              //   image: widget.item.image,
+                              // ),
+                              ),
                         ),
                       ),
                     ],
@@ -86,10 +86,10 @@ class _CartViewState extends State<CheckoutView> {
                 10.heightBox,
                 CartSummaryWidget(item: widget.item, quantity: quantity),
                 15.heightBox,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: packageContainer(context, "Shop more"),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 8.0),
+                //   child: packageContainer(context, "Shop more"),
+                // ),
                 10.heightBox,
               ],
             ),
@@ -117,12 +117,12 @@ class _CartViewState extends State<CheckoutView> {
                   fontSize: context.textTheme.headline6.fontSize,
                 ),
                 5.heightBox,
-                text(
-                  widget.item is PackageData ? "" : "By ${widget.item.author}",
-                  isCentered: false,
-                  fontweight: FontWeight.w600,
-                  fontSize: context.textTheme.subtitle2.fontSize,
-                ),
+                // text(
+                //   widget.item is PackageData ? "" : "By ${widget.item.author}",
+                //   isCentered: false,
+                //   fontweight: FontWeight.w600,
+                //   fontSize: context.textTheme.subtitle2.fontSize,
+                // ),
                 5.heightBox,
                 text(
                   "${widget.item.price}".toCurrency,
@@ -257,14 +257,14 @@ class CartSummaryWidget extends StatelessWidget {
                         title: "Bookname",
                         detail: item.title,
                       ),
-                      divider(),
+                      // divider(),
                       summaryDetails(title: "Quantity", detail: "$quantity"),
-                      divider(),
+                      // divider(),
                       summaryDetails(
                         title: "Subtotal",
                         detail: "${item.offerPrice * quantity}".toCurrency,
                       ),
-                      divider(),
+                      // divider(),
                       summaryDetails(title: "Discount", detail: "0".toCurrency),
                       dottedLine(),
                       summaryDetails(
@@ -273,7 +273,7 @@ class CartSummaryWidget extends StatelessWidget {
                         color: blackColor,
                       ),
                       8.heightBox,
-                      divider(),
+                      // divider(),
                     ],
                   ),
                 ),
@@ -293,14 +293,13 @@ class CartSummaryWidget extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          // ignore: deprecated_member_use
-                          OutlineButton(
+                          ElevatedButton(
                             child: icon(
                               esewaIcon,
                               width: double.infinity,
                               height: context.screenWidth * 0.1,
                             ),
-                            borderSide: BorderSide(color: colorPrimary),
+                            // borderSide: BorderSide(color: colorPrimary),
                             onPressed: () async {
                               //
                               ESewaConfiguration _configuration = ESewaConfiguration(
@@ -333,11 +332,11 @@ class CartSummaryWidget extends StatelessWidget {
                               }
                             },
                           ),
-                          OutlineButton(
+                          ElevatedButton(
                             onPressed: () {
                               //
                             },
-                            borderSide: BorderSide(color: colorPrimary),
+                            // borderSide: BorderSide(color: colorPrimary),
                             child: text("Cash on Delivery"),
                           )
                         ],

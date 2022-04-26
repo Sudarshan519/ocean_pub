@@ -20,7 +20,8 @@ class SignupView extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             height: context.screenHeight * 0.85,
             child: viewmodel.isProcessing
-                ? CircularProgressIndicator()
+                ? Container(
+                    color: Colors.white, child: CircularProgressIndicator())
                 : AuthenticationPresenter(
                     formType: FormType.signup,
                     emailController: viewmodel.emailController,

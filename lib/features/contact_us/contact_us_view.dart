@@ -50,11 +50,12 @@ class ContactUsView extends StatelessWidget {
           ),
           10.heightBox,
           Container(
-            height: context.screenWidth / 10,
-            padding: EdgeInsets.symmetric(horizontal: context.screenWidth / 6),
-            child: OutlineButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)),
+              height: context.screenWidth / 10,
+              padding:
+                  EdgeInsets.symmetric(horizontal: context.screenWidth / 6),
+              child: ElevatedButton(
+                // shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(20.0)),
                 onPressed: () {},
                 child: Text(
                   "Submit",
@@ -62,8 +63,9 @@ class ContactUsView extends StatelessWidget {
                       fontSize: theme.button.fontSize + 5,
                       fontWeight: FontWeight.w500),
                 ),
-                borderSide: BorderSide(color: Colors.blue)),
-          )
+              )
+              // borderSide: BorderSide(color: Colors.blue)),
+              )
         ],
       ),
     );

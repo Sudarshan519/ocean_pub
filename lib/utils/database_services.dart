@@ -56,7 +56,7 @@ class CartService {
     }
 
     var data = await database.query(tableName, where: "id=?", whereArgs: [id]);
-    print(data);
+    // print(data);
     if (data.length > 0) return true;
     return false;
   }

@@ -5,6 +5,7 @@ import 'package:publication_app/features/authors/authors_view.dart';
 import 'package:publication_app/features/distributors/distributors_view.dart';
 import 'package:publication_app/features/lets_explore/lets_explore_view.dart';
 import 'package:publication_app/utils/assets.dart';
+import 'package:publication_app/utils/functions.dart';
 import 'package:publication_app/utils/widgets.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -24,12 +25,12 @@ class DrawerView extends StatelessWidget {
   ];
   final List<Widget> navigate = [
     //
-    LetsExploreView(type: "book"),
-    LetsExploreView(type: "video"),
-    LetsExploreView(type: "package"),
-    AuthorsView(),
+    // LetsExploreView(type: "book"),
+    // LetsExploreView(type: "video"),
+    // LetsExploreView(type: "package"),
+    // AuthorsView(),
     // AllCoursesView(),
-    DistributorView(),
+    // DistributorView(),
     // NotificationView(),
     // UserProfileView(),
     // AllCoursesView(),
@@ -126,12 +127,13 @@ class DrawerView extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => navigate[i] ?? AllCoursesView(),
-                        ),
-                      );
+                      push(context, navigate[i]);
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => navigate[i] ?? AllCoursesView(),
+                      //   ),
+                      // );
                     },
                   ),
                 );

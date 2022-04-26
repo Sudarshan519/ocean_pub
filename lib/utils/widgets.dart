@@ -1,4 +1,3 @@
-import 'package:publication_app/features/reusable_wiidgets.dart';
 import 'package:publication_app/utils/colors.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter/material.dart';

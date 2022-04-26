@@ -51,14 +51,14 @@ class AuthorData {
   final String name;
   final String slug;
   final String image;
-  final List<BookData> books;
+  final List<BooksDatum> books;
 
   AuthorData copyWith({
     int id,
     String name,
     String slug,
     String image,
-    List<Book> books,
+    List<Books> books,
   }) =>
       AuthorData(
         id: id ?? this.id,
@@ -75,8 +75,8 @@ class AuthorData {
         image: json["image"] == null ? null : json["image"],
         books: json["books"] == null
             ? null
-            : List<BookData>.from(
-                json["books"].map((x) => BookData.fromMap(x))),
+            : List<BooksDatum>.from(
+                json["books"].map((x) => BooksDatum.fromJson(x))),
       );
 
   Map<String, dynamic> toMap() => {
@@ -86,6 +86,6 @@ class AuthorData {
         "image": image == null ? null : image,
         "books": books == null
             ? null
-            : List<dynamic>.from(books.map((x) => x.toMap())),
+            : List<dynamic>.from(books.map((x) => x.toJson())),
       };
 }

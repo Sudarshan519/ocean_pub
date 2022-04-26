@@ -10,6 +10,7 @@ class CartViewModel extends BaseViewModel {
   Future<void> getCartItems() async {
     //
     var results = await _cartService.getFromDB();
+    // print(results);
     cartItems.addAll(results);
     notifyListeners();
   }
@@ -26,11 +27,11 @@ class CartViewModel extends BaseViewModel {
       id: item.id,
       image: item.image,
       name: item.title,
-      author: item is PackageData ? "" : item.author,
+      author: item is Packages ? "" : item.author,
       price: item.price,
-      type: item is BookData
+      type: item is Books
           ? "Book"
-          : item is VideoData
+          : item is Video
               ? "Video"
               : "Package",
       quantity: 1,
@@ -53,11 +54,11 @@ class CartViewModel extends BaseViewModel {
       id: item.id,
       image: item.image,
       name: item.title,
-      author: item is PackageData ? "" : item.author,
+      author: item is BooksDatum ? item.author : "",
       price: item.price,
-      type: item is BookData
+      type: item is BooksDatum
           ? "Book"
-          : item is VideoData
+          : item is Video
               ? "Video"
               : "Package",
       quantity: 1,
